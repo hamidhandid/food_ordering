@@ -1,0 +1,20 @@
+{
+  "login": {
+    "signUp": "Sign Up",
+    "signIn": "Sign In"
+  },
+  "pageTitles": {
+    "home": "Home",
+    "login": "Login",
+    "profile": "Profile",
+    "request": "Requests",
+    "delivery": "Deliveries",
+    "setting": "Settings"
+  },
+  "home": {
+    "title": "AloSelf",
+    "cash": "Cash",
+    "totalRequests": "Total Requests",
+    "totalDeliveries": "Total Deliveries"
+  }
+}

@@ -1,0 +1,51 @@
+name: alo_self
+version: 1.0.0+1
+publish_to: none
+description: A new Flutter project.
+environment: 
+  sdk: '>=2.12.0 <3.0.0'
+
+dependencies: 
+  cupertino_icons: ^1.0.2
+  flutter: 
+    sdk: flutter
+  get: 4.1.4
+  get_storage: ^2.0.2
+  salomon_bottom_bar: ^3.0.0
+
+dev_dependencies: 
+  flutter_test: 
+    sdk: flutter
+
+flutter: 
+  uses-material-design: true
+  fonts:
+    - family: iransans_fa
+      fonts:
+        - asset: ./assets/fonts/iransans_fa_black.ttf
+          weight: 900
+        - asset: ./assets/fonts/iransans_fa_bold.ttf
+          weight: 700
+        - asset: ./assets/fonts/iransans_fa_medium.ttf
+          weight: 500
+        - asset: ./assets/fonts/iransans_fa_regular.ttf
+          weight: 400
+        - asset: ./assets/fonts/iransans_fa_light.ttf
+          weight: 300
+        - asset: ./assets/fonts/iransans_fa_ultralight.ttf
+          weight: 200
+    - family: iransans_en
+      fonts:
+        - asset: ./assets/fonts/iransans_en_black.ttf
+          weight: 900
+        - asset: ./assets/fonts/iransans_en_bold.ttf
+          weight: 700
+        - asset: ./assets/fonts/iransans_en_medium.ttf
+          weight: 500
+        - asset: ./assets/fonts/iransans_en_regular.ttf
+          weight: 400
+        - asset: ./assets/fonts/iransans_en_light.ttf
+          weight: 300
+        - asset: ./assets/fonts/iransans_en_ultralight.ttf
+          weight: 200
+
