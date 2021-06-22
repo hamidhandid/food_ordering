@@ -13,6 +13,7 @@ abstract class Routes {
   static const HISTORY = _Paths.HISTORY;
   static const TEST = _Paths.TEST;
   static const ABBAS = _Paths.ABBAS;
+  static const RESTAURANTS = _Paths.RESTAURANTS;
 }
 
 abstract class _Paths {
@@ -25,4 +26,5 @@ abstract class _Paths {
   static const HISTORY = '/history';
   static const TEST = '/test';
   static const ABBAS = '/abbas';
+  static const RESTAURANTS = '/restaurants';
 }

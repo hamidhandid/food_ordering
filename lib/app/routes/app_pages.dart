@@ -13,6 +13,8 @@ import 'package:alo_self/app/modules/profile/bindings/profile_binding.dart';
 import 'package:alo_self/app/modules/profile/views/profile_view.dart';
 import 'package:alo_self/app/modules/request/bindings/request_binding.dart';
 import 'package:alo_self/app/modules/request/views/request_view.dart';
+import 'package:alo_self/app/modules/restaurants/bindings/restaurants_binding.dart';
+import 'package:alo_self/app/modules/restaurants/views/restaurants_view.dart';
 import 'package:alo_self/app/modules/setting/bindings/setting_binding.dart';
 import 'package:alo_self/app/modules/setting/views/setting_view.dart';
 
@@ -56,6 +58,11 @@ class AppPages {
       name: _Paths.HISTORY,
       page: () => HistoryView(),
       binding: HistoryBinding(),
+    ),
+    GetPage(
+      name: _Paths.RESTAURANTS,
+      page: () => RestaurantsView(),
+      binding: RestaurantsBinding(),
     ),
   ];
 }
