@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
-  const CustomAppBar({Key? key, required this.title}) : super(key: key);
+  const CustomAppBar({Key? key, required this.title, this.onTap}) : super(key: key);
   final String title;
+  final VoidCallback? onTap;
 
   @override
   Widget build(BuildContext context) {
@@ -19,13 +20,20 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
           ),
         ),
         actions: [
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 10),
-            child: Icon(
-              Icons.shopping_cart,
-              size: 30,
+          InkWell(
+            onTap: () {
+              if (onTap != null) {
+                onTap!();
+              }
+            },
+            child: Padding(
+              padding: EdgeInsets.symmetric(horizontal: 10),
+              child: Icon(
+                Icons.logout,
+                size: 30,
+              ),
             ),
-          )
+          ),
         ],
         // centerTitle: true,
       ),
