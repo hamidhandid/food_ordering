@@ -1,6 +1,8 @@
 import 'package:alo_self/app/common_widgets/custom_app_bar.dart';
 import 'package:alo_self/app/common_widgets/custom_form.dart';
 import 'package:alo_self/app/common_widgets/custom_snackbar.dart';
+import 'package:alo_self/app/modules/restaurants/controllers/restaurants_controller.dart';
+import 'package:alo_self/app/modules/restaurants/views/restaurants_view.dart';
 import 'package:alo_self/generated/locales.g.dart';
 import 'package:flutter/material.dart';
 
@@ -88,7 +90,14 @@ class HomeView extends GetView<HomeController> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
-                          _buildIconView(Icons.restaurant, "Restaurant List"),
+                          _buildIconView(
+                            Icons.restaurant,
+                            "Restaurant List",
+                            onTap: () {
+                              Get.lazyPut(() => RestaurantsController());
+                              Get.to(() => RestaurantsView());
+                            },
+                          ),
                           _buildIconView(
                             Icons.add,
                             "Add Restaurant",
@@ -111,7 +120,6 @@ class HomeView extends GetView<HomeController> {
                                     'Succeed',
                                     'Restaurant ${_res.name} added',
                                   );
-
                                 }
                               },
                               buttonText: 'Add',
