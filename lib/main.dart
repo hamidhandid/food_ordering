@@ -10,11 +10,11 @@ import 'generated/locales.g.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await initServices();
+  await _initServices();
   runApp(
     GetMaterialApp(
-      title: "AloSelf",
-      initialRoute: AppPages.INITIAL,
+      title: "Parham Food",
+      initialRoute: !(await _isLoggedIn()) ? Routes.LOGIN : Routes.HOME,
       getPages: AppPages.routes,
       translationsKeys: AppTranslation.translations,
       locale: Locale('fa', 'IR'),
@@ -25,6 +25,10 @@ void main() async {
   );
 }
 
-Future<void> initServices() async {
+Future<void> _initServices() async {
   await GetStorage.init();
+}
+
+Future<bool> _isLoggedIn() async {
+  return GetStorage().hasData('token');
 }
