@@ -21,8 +21,6 @@ part 'app_routes.dart';
 class AppPages {
   AppPages._();
 
-  static final INITIAL = GetStorage().read("token") != null ? Routes.HOME : Routes.LOGIN;
-
   static final routes = [
     GetPage(
       name: _Paths.HOME,
