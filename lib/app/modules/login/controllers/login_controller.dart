@@ -1,10 +1,13 @@
+import 'package:alo_self/app/api/manager/manager_api.dart';
+import 'package:alo_self/app/modules/home/controllers/home_controller.dart';
 import 'package:alo_self/app/modules/home/views/home_view.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 
 class LoginController extends GetxController {
-  final loginTextField = TextEditingController().obs;
+  final emailField = TextEditingController().obs;
+  final passField = TextEditingController().obs;
 
   @override
   void onInit() {
@@ -19,9 +22,15 @@ class LoginController extends GetxController {
   @override
   void onClose() {}
 
-  Future<void> login() async {
-    await GetStorage().write("token", true);
+  Future<String> login() async {
+    final api = ManagerApi();
+    final res = await api.login(emailField.value.text, passField.value.text);
+    await GetStorage().write('token', res!.token);
     update();
-    Get.offAll(() => HomeView());
+    Get.lazyPut<HomeController>(
+      () => HomeController(),
+    );
+    await Get.offAll(() => HomeView());
+    return 'success';
   }
 }
