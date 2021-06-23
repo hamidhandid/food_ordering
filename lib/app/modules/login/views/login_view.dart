@@ -13,6 +13,7 @@ class LoginView extends GetView<LoginController> {
     return Scaffold(
       appBar: CustomAppBar(
         title: LocaleKeys.pageTitles_login.tr,
+        showLogoutAction: false,
       ),
       body: FlutterLogin(
         onLogin: (LoginData loginData) {
@@ -24,7 +25,9 @@ class LoginView extends GetView<LoginController> {
           return null;
         },
         onSignup: (LoginData loginData) {
-          return null;
+          controller.emailField.value.text = loginData.name;
+          controller.passField.value.text = loginData.password;
+          return controller.signup();
         },
         passwordValidator: (str) {
           if (str != null && str.length < 8) {
@@ -32,35 +35,12 @@ class LoginView extends GetView<LoginController> {
           }
           return null;
         },
-        title: 'پرهام‌فود',
+        title: 'Parham Food',
         hideForgotPasswordButton: true,
-        hideSignUpButton: true,
+        
+        // hideSignUpButton: true,
         // showDebugButtons: true,
       ),
-      // body: Container(
-      //   // padding: EdgeInsets.all(30),
-      //   // child: Center(
-      //   //   child: Column(
-      //   //     mainAxisAlignment: MainAxisAlignment.center,
-      //   //     children: [
-      //   //       TextField(
-      //   //         controller: controller.emailField.value,
-      //   //       ),
-      //   //       SizedBox(height: 40),
-      //   //       TextField(
-      //   //         controller: controller.passField.value,
-      //   //       ),
-      //   //       SizedBox(height: 20),
-      //   //       ElevatedButton(
-      //   //         onPressed: () async {
-      //   //           await controller.login();
-      //   //         },
-      //   //         child: Text('Submit'),
-      //   //       ),
-      //   //       SizedBox(height: 20),
-      //   //     ],
-      //   //   ),
-      //   // ),
     );
   }
 }
