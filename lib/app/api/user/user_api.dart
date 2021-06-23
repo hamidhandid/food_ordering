@@ -60,9 +60,29 @@ class UserApi {
       print(json.encode(userProfile));
       Response? res;
       try {
-        res = await dio.post(
+        res = await dio.put(
           ApiRoutes.userProfile,
           data: json.encode(userProfile),
+        );
+      } on DioError catch (e) {
+        print(e.message);
+        print(e.response?.data);
+        print(e.response?.statusCode);
+      }
+      // return LoginResult(token: res as);
+      print(res?.data);
+      // print(_res.statusCode);
+      // print(json.decode(_res.data));
+      return UserProfile.fromJson(res!.data as Map<String, dynamic>);
+    });
+  }
+
+  Future<UserProfile?> getProfile() {
+    return invokeApi<UserProfile>((dio) async {
+      Response? res;
+      try {
+        res = await dio.get(
+          ApiRoutes.userProfile,
         );
       } on DioError catch (e) {
         print(e.message);
