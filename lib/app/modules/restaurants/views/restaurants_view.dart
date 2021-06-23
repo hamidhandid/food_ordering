@@ -2,6 +2,7 @@ import 'package:alo_self/app/common_widgets/custom_card.dart';
 import 'package:alo_self/app/common_widgets/custom_form.dart';
 import 'package:alo_self/app/common_widgets/custom_item_list.dart';
 import 'package:alo_self/app/common_widgets/custom_screen.dart';
+import 'package:alo_self/app/common_widgets/custom_snackbar.dart';
 import 'package:alo_self/app/model/food.dart';
 import 'package:alo_self/app/model/restaurant.dart';
 import 'package:alo_self/app/utils/custom_pair.dart';
@@ -96,8 +97,8 @@ class _RestaurantsViewState extends State<RestaurantsView> {
                         );
                       },
                       details: [
-                        CustomPair(e.name, e.work_hour),
-                        CustomPair(e.area, e.address),
+                        CustomPair('Name: ${e.name}', 'Hours: ${e.work_hour}'),
+                        CustomPair('Area: ${e.area}', 'Address: ${e.address}'),
                         CustomPair('Delivery Cost: ${e.deliver_cost} tomans', ''),
                         if (e.foods != null && e.foods!.isNotEmpty) CustomPair('Foods:', ''),
                       ],
@@ -126,23 +127,40 @@ class _RestaurantsViewState extends State<RestaurantsView> {
                                         .toList(),
                                     StatefulBuilder(
                                       builder: (BuildContext context, void Function(void Function()) customSetState) {
-                                        return Switch.adaptive(
-                                          value: _orderable,
-                                          onChanged: (value) {
-                                            customSetState(() {
-                                              _orderable = !_orderable;
-                                              controller.foodIsOrderable.value = _orderable;
-                                            });
-                                          },
+                                        return Flexible(
+                                          child: Row(
+                                            mainAxisAlignment: MainAxisAlignment.center,
+                                            children: [
+                                              Text(
+                                                'Orderable: ',
+                                                style: TextStyle(
+                                                  fontSize: 18,
+                                                  fontWeight: FontWeight.w500,
+                                                ),
+                                              ),
+                                              SizedBox(width: 20),
+                                              Switch.adaptive(
+                                                value: _orderable,
+                                                onChanged: (value) {
+                                                  customSetState(() {
+                                                    _orderable = !_orderable;
+                                                    controller.foodIsOrderable.value = _orderable;
+                                                  });
+                                                },
+                                              ),
+                                            ],
+                                          ),
                                         );
                                       },
                                     ),
+                                    SizedBox(height: 10),
                                     IconButton(
                                       onPressed: () {
                                         CustomForm.show(
                                           context,
                                           formTitle: 'Delete ${food.name} Food?',
                                           textFields: [
+                                            SizedBox(height: 20),
                                             MaterialButton(
                                               child: Text(
                                                 'Delete',
@@ -154,9 +172,13 @@ class _RestaurantsViewState extends State<RestaurantsView> {
                                               color: Colors.red[400],
                                               onPressed: () async {
                                                 await controller.removeFood(e, food);
-                                                // Get.back();
-                                                // Get.back();
-                                                // setState(() {});
+                                                Get.back();
+                                                Get.back();
+                                                CustomSnackBar.show(
+                                                  'Success',
+                                                  '${food.name} Deleted',
+                                                );
+                                                setState(() {});
                                               },
                                             ),
                                             MaterialButton(
@@ -177,7 +199,7 @@ class _RestaurantsViewState extends State<RestaurantsView> {
                                           showSubmitButton: false,
                                         );
                                       },
-                                      icon: Icon(Icons.delete_outline),
+                                      icon: Icon(Icons.delete_outline, size: 35),
                                     ),
                                   ],
                                   buttonOnPressed: () async {
@@ -187,11 +209,17 @@ class _RestaurantsViewState extends State<RestaurantsView> {
                                       orderable: controller.foodIsOrderable.value,
                                     );
                                     Get.back();
-                                    // setState(() {});
+                                    CustomSnackBar.show(
+                                      'Success',
+                                      '${food.name} Edited',
+                                    );
+                                    setState(() {});
                                   },
                                 );
                               },
-                              CustomPair('Food Name: ${food.name}', 'Food Price: ${food.cost} tomans'),
+                              CustomPair('Name: ${food.name}                     Price: ${food.cost}',
+                                  'Numbers: ${food.number}                     Orderable: ${food.orderable ? "Yes" : "No"}'),
+                              // Orderable: ${food.orderable ? "yes" : "no"}
                             )
                       ],
                     ),

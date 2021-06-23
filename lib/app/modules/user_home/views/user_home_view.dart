@@ -45,7 +45,7 @@ class UserHomeView extends GetView<UserHomeController> {
                           child: Padding(
                             padding: const EdgeInsets.all(10.0),
                             child: Text(
-                              'Add Your Profile',
+                              'Edit Your Profile',
                               style: TextStyle(
                                 fontSize: 24,
                                 color: Colors.white,

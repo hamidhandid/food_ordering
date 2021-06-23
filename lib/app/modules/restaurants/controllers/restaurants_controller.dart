@@ -28,9 +28,11 @@ class RestaurantsController extends GetxController {
   List<CustomPair<String, Rx<TextEditingController>>> get addFoodControllers => [
         CustomPair('Food Name', foodNameController),
         CustomPair('Food Price', foodCostController),
+        CustomPair('Number', foodNumberController),
       ];
   final foodNameController = TextEditingController().obs;
   final foodCostController = TextEditingController().obs;
+  final foodNumberController = TextEditingController().obs;
   final foodIsOrderable = true.obs;
 
   @override

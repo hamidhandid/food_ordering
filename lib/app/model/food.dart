@@ -8,9 +8,9 @@ class Food {
   final int cost;
   final bool orderable;
   final String? id;
-  // final String? restaurant_id;
+  final String? restaurant_id;
   final int? number;
-  const Food({required this.name, required this.cost, this.orderable = true, this.id, this.number});
+  const Food({required this.name, required this.cost, this.orderable = true, this.id, this.number, this.restaurant_id});
   factory Food.fromJson(Map<String, dynamic> json) => _$FoodFromJson(json);
   Map<String, dynamic> toJson() => _$FoodToJson(this);
 }

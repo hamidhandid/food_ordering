@@ -124,13 +124,6 @@ class HomeView extends GetView<HomeController> {
                           ),
                         ],
                       ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: [
-                          _buildIconView(Icons.history, 'Send History'),
-                          _buildIconView(Icons.support_agent, 'Contact Us'),
-                        ],
-                      ),
                     ],
                   ),
                 ),
