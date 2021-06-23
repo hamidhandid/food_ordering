@@ -13,7 +13,8 @@ class ApiRoutes {
 
 // User
   static const loginUser = '/user/login'; // post
-  static const userProfile = '/user/{userId}/profile'; // put
+  static const signupUser = '/user/signup'; // post
+  static const userProfile = '/user/profile'; // put
   static const searchFood = '/search/food'; // get
   static const searchRestaurant = '/search/restaurant'; // get
   static const searchArea = '/search/area'; // get
