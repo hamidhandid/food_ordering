@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:alo_self/app/api/api_routes.dart';
+import 'package:alo_self/app/model/food.dart';
 import 'package:alo_self/app/model/restaurant.dart';
 import 'package:alo_self/app/model/restaurants.dart';
 import 'package:dio/dio.dart';
@@ -24,7 +25,6 @@ class RestaurantApi {
         service_areas: service_areas,
         work_hour: work_hour,
         deliver_cost: deliver_cost,
-        menu: [],
       ).toJson();
       print(json.encode(_restaurant));
       Response? res;
@@ -54,6 +54,7 @@ class RestaurantApi {
     required List<String> service_areas,
     required String work_hour,
     required int deliver_cost,
+    List<Food>? foods,
   }) async {
     return invokeApi<Restaurant>((dio) async {
       final _restaurant = Restaurant(
@@ -63,14 +64,13 @@ class RestaurantApi {
         service_areas: service_areas,
         work_hour: work_hour,
         deliver_cost: deliver_cost,
-        menu: [],
+        foods: foods ?? [],
       ).toJson();
       print(json.encode(_restaurant));
       Response? res;
       try {
         res = await dio.put(
-          //TODO
-          ApiRoutes.restaurantPut.replaceAll('{id}', id),
+          ApiRoutes.restaurantPut.replaceAll('{rid}', id),
           data: json.encode(_restaurant),
         );
       } on DioError catch (e) {

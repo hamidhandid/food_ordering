@@ -1,12 +1,13 @@
 class ApiRoutes {
 // Manager
   static const loginManager = '/manager/login'; // post
+  static const signupManager = '/manager/signup'; // post
   static const restaurantPost = '/restaurant'; // post
   static const restaurantGet = '/restaurant'; // get
   static const restaurantPut = '/restaurant/{rid}'; // put
   static const foodPost = '/restaurant/{rid}/foods'; // post
-  static const foodDelete = '/restaurant/{rid}/foods/{fid}'; // delete
-  static const foodPut = '/restaurant/{rid}/foods/{fid}'; // put
+  static const foodDelete = '/restaurant/foods/{fid}'; // delete
+  static const foodPut = '/restaurant/foods/{fid}'; // put
   static const orderPut = '/orders/{oid}'; // put
   static const commentsPut = '/restaurant/{rid}/foods/{fid}/comments/{cid}'; // put
 

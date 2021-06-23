@@ -6,8 +6,9 @@ import 'package:alo_self/app/model/food.dart';
 import 'package:dio/dio.dart';
 import '../api_agent.dart';
 
-class RestaurantApi {
-  Future<Food?> addFood({
+class FoodApi {
+  Future<Food?> addFood(
+    String rid, {
     required String name,
     required int cost,
     bool orderable = true,
@@ -22,8 +23,7 @@ class RestaurantApi {
       Response? res;
       try {
         res = await dio.post(
-          //TODO
-          ApiRoutes.foodPost,
+          ApiRoutes.foodPost.replaceAll('{rid}', rid),
           data: json.encode(_food),
         );
       } on DioError catch (e) {
@@ -39,27 +39,61 @@ class RestaurantApi {
     });
   }
 
-  // Future<Food?> makeFoodUnorderable(
-  //   String id,
-  // ) async {
-  //   return invokeApi<Food>((dio) async {
-  //     print(json.encode(_restaurant));
-  //     Response? res;
-  //     try {
-  //       res = await dio.put(
-  //         ApiRoutes.restaurantPut.replaceAll('{id}', id),
-  //         data: json.encode(_restaurant),
-  //       );
-  //     } on DioError catch (e) {
-  //       print(e.message);
-  //       print(e.response?.data);
-  //       print(e.response?.statusCode);
-  //     }
-  //     // return LoginResult(token: res as);
-  //     print(res?.data);
-  //     // print(_res.statusCode);
-  //     // print(json.decode(_res.data));
-  //     return Restaurant.fromJson(res!.data as Map<String, dynamic>);
-  //   });
-  // }
+  Future<Food?> changeFoodOrderable(
+    Food food,
+    bool orderable,
+  ) async {
+    return invokeApi<Food>((dio) async {
+      final _food = Food(
+        id: food.id,
+        cost: food.cost,
+        name: food.name,
+        number: food.number ?? 0,
+        orderable: orderable,
+      ).toJson();
+      print(json.encode(_food));
+      Response? res;
+      try {
+        res = await dio.put(
+          ApiRoutes.foodPut.replaceAll(
+            '{fid}',
+            food.id!,
+          ),
+          data: json.encode(_food),
+        );
+      } on DioError catch (e) {
+        print(e.message);
+        print(e.response?.data);
+        print(e.response?.statusCode);
+      }
+      // return LoginResult(token: res as);
+      print(res?.data);
+      // print(_res.statusCode);
+      // print(json.decode(_res.data));
+      return Food.fromJson(res!.data as Map<String, dynamic>);
+    });
+  }
+
+  Future<Food?> removeFood(
+    Food food,
+  ) async {
+    return invokeApi<Food>((dio) async {
+      Response? res;
+      try {
+        res = await dio.delete(
+          ApiRoutes.foodDelete.replaceAll('{fid}', food.id!),
+          // data: json.encode(_food),
+        );
+      } on DioError catch (e) {
+        print(e.message);
+        print(e.response?.data);
+        print(e.response?.statusCode);
+      }
+      // return LoginResult(token: res as);
+      print(res?.data);
+      // print(_res.statusCode);
+      // print(json.decode(_res.data));
+      return Food.fromJson(res!.data as Map<String, dynamic>);
+    });
+  }
 }
