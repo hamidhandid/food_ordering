@@ -25,12 +25,30 @@ class LoginController extends GetxController {
   Future<String> login() async {
     final api = ManagerApi();
     final res = await api.login(emailField.value.text, passField.value.text);
-    await GetStorage().write('token', res!.token);
-    update();
-    Get.lazyPut<HomeController>(
-      () => HomeController(),
-    );
-    await Get.offAll(() => HomeView());
-    return 'success';
+    if (res != null) {
+      await GetStorage().write('token', res.token);
+      update();
+      Get.lazyPut<HomeController>(
+        () => HomeController(),
+      );
+      await Get.offAll(() => HomeView());
+      return 'success';
+    }
+    return 'failure';
+  }
+
+  Future<String> signup() async {
+    final api = ManagerApi();
+    final res = await api.signup(emailField.value.text, passField.value.text);
+    if (res != null) {
+      await GetStorage().write('token', res.token);
+      update();
+      Get.lazyPut<HomeController>(
+        () => HomeController(),
+      );
+      await Get.offAll(() => HomeView());
+      return 'success';
+    }
+    return 'failure';
   }
 }
