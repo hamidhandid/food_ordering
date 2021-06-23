@@ -15,10 +15,11 @@ class HomeView extends GetView<HomeController> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: CustomAppBar(
-        title: 'Parham Food',
+        title: 'Manager Home',
         onTap: () async {
           await controller.logout();
         },
+        showLogoutAction: true,
       ),
       body: Container(
         child: Center(

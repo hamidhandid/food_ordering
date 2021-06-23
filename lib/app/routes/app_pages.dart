@@ -1,6 +1,8 @@
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 
+import 'package:alo_self/app/modules/choose_page/bindings/choose_page_binding.dart';
+import 'package:alo_self/app/modules/choose_page/views/choose_page_view.dart';
 import 'package:alo_self/app/modules/delivery/bindings/delivery_binding.dart';
 import 'package:alo_self/app/modules/delivery/views/delivery_view.dart';
 import 'package:alo_self/app/modules/history/bindings/history_binding.dart';
@@ -17,6 +19,8 @@ import 'package:alo_self/app/modules/restaurants/bindings/restaurants_binding.da
 import 'package:alo_self/app/modules/restaurants/views/restaurants_view.dart';
 import 'package:alo_self/app/modules/setting/bindings/setting_binding.dart';
 import 'package:alo_self/app/modules/setting/views/setting_view.dart';
+import 'package:alo_self/app/modules/user_home/bindings/user_home_binding.dart';
+import 'package:alo_self/app/modules/user_home/views/user_home_view.dart';
 
 part 'app_routes.dart';
 
@@ -63,6 +67,16 @@ class AppPages {
       name: _Paths.RESTAURANTS,
       page: () => RestaurantsView(),
       binding: RestaurantsBinding(),
+    ),
+    GetPage(
+      name: _Paths.CHOOSE_PAGE,
+      page: () => ChoosePageView(),
+      binding: ChoosePageBinding(),
+    ),
+    GetPage(
+      name: _Paths.USER_HOME,
+      page: () => UserHomeView(),
+      binding: UserHomeBinding(),
     ),
   ];
 }

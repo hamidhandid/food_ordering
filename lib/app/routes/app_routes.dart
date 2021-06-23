@@ -14,6 +14,8 @@ abstract class Routes {
   static const TEST = _Paths.TEST;
   static const ABBAS = _Paths.ABBAS;
   static const RESTAURANTS = _Paths.RESTAURANTS;
+  static const CHOOSE_PAGE = _Paths.CHOOSE_PAGE;
+  static const USER_HOME = _Paths.USER_HOME;
 }
 
 abstract class _Paths {
@@ -27,4 +29,6 @@ abstract class _Paths {
   static const TEST = '/test';
   static const ABBAS = '/abbas';
   static const RESTAURANTS = '/restaurants';
+  static const CHOOSE_PAGE = '/choose-page';
+  static const USER_HOME = '/user-home';
 }

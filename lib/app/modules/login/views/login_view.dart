@@ -4,12 +4,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_login/flutter_login.dart';
 
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 
 import '../controllers/login_controller.dart';
 
 class LoginView extends GetView<LoginController> {
   @override
   Widget build(BuildContext context) {
+    final _isUser = GetStorage().read('type') == 'User';
     return Scaffold(
       appBar: CustomAppBar(
         title: LocaleKeys.pageTitles_login.tr,
@@ -17,7 +19,7 @@ class LoginView extends GetView<LoginController> {
       ),
       body: FlutterLogin(
         onLogin: (LoginData loginData) {
-          controller.emailField.value.text = loginData.name;
+          controller.emailOrMobileNumberField.value.text = loginData.name;
           controller.passField.value.text = loginData.password;
           return controller.login();
         },
@@ -25,10 +27,18 @@ class LoginView extends GetView<LoginController> {
           return null;
         },
         onSignup: (LoginData loginData) {
-          controller.emailField.value.text = loginData.name;
+          controller.emailOrMobileNumberField.value.text = loginData.name;
           controller.passField.value.text = loginData.password;
           return controller.signup();
         },
+        userValidator: _isUser
+            ? (str) {
+                if (str != null && str.length == 11 && str.startsWith('09')) {
+                  return null;
+                }
+                return 'Mobile Number is not valid';
+              }
+            : FlutterLogin.defaultEmailValidator,
         passwordValidator: (str) {
           if (str != null && str.length < 8) {
             return 'password must be at least 8 characters';
@@ -37,9 +47,9 @@ class LoginView extends GetView<LoginController> {
         },
         title: 'Parham Food',
         hideForgotPasswordButton: true,
-        
-        // hideSignUpButton: true,
-        // showDebugButtons: true,
+        messages: LoginMessages(
+          userHint: _isUser ? 'Mobile Number' : 'Email',
+        ),
       ),
     );
   }

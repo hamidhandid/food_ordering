@@ -14,7 +14,11 @@ void main() async {
   runApp(
     GetMaterialApp(
       title: "Parham Food",
-      initialRoute: !(await _isLoggedIn()) ? Routes.LOGIN : Routes.HOME,
+      initialRoute: !(await _isLoggedIn())
+          ? Routes.CHOOSE_PAGE
+          : (GetStorage().read('type') == 'User')
+              ? Routes.USER_HOME
+              : Routes.HOME,
       getPages: AppPages.routes,
       translationsKeys: AppTranslation.translations,
       locale: Locale('en', 'US'),
