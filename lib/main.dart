@@ -17,7 +17,7 @@ void main() async {
       initialRoute: !(await _isLoggedIn()) ? Routes.LOGIN : Routes.HOME,
       getPages: AppPages.routes,
       translationsKeys: AppTranslation.translations,
-      locale: Locale('fa', 'IR'),
+      locale: Locale('en', 'US'),
       theme: LightTheme().themeData,
       darkTheme: DarkTheme().themeData,
       debugShowCheckedModeBanner: false,
