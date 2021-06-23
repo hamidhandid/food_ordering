@@ -890,3 +890,5 @@ DerivedData/
 
 # Generated Files
 *.g.dart
+
+.flutter-plugins-dependencies
