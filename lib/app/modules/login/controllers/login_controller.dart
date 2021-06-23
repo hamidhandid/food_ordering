@@ -31,7 +31,7 @@ class LoginController extends GetxController {
     if (_isUser) {
       api = UserApi();
     } else {
-      ManagerApi();
+      api = ManagerApi();
     }
     final res = await api.login(emailOrMobileNumberField.value.text, passField.value.text);
     if (res != null) {
@@ -61,7 +61,7 @@ class LoginController extends GetxController {
     if (_isUser) {
       api = UserApi();
     } else {
-      ManagerApi();
+      api = ManagerApi();
     }
     final res = await api.signup(emailOrMobileNumberField.value.text, passField.value.text);
     if (res != null) {
