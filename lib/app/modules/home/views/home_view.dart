@@ -36,7 +36,25 @@ class HomeView extends GetView<HomeController> {
                         'Parham, the Best',
                         style: Get.textTheme.headline1,
                       ),
-                      SizedBox(height: 35),
+                      SizedBox(height: 20),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: MaterialButton(
+                          color: Colors.green[900],
+                          onPressed: () => _showAddRestaurantModal(context),
+                          child: Padding(
+                            padding: const EdgeInsets.all(10.0),
+                            child: Text(
+                              'Add Your Restaurant',
+                              style: TextStyle(
+                                fontSize: 24,
+                                color: Colors.white,
+                                fontWeight: FontWeight.w700,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
                       // Row(
                       //   mainAxisAlignment: MainAxisAlignment.spaceAround,
                       //   children: [
@@ -94,36 +112,14 @@ class HomeView extends GetView<HomeController> {
                             Icons.restaurant,
                             "Restaurant List",
                             onTap: () {
-                              Get.lazyPut(() => RestaurantsController());
+                              // Get.lazyPut(() => RestaurantsController());
                               Get.to(() => RestaurantsView());
                             },
                           ),
                           _buildIconView(
                             Icons.add,
                             "Add Restaurant",
-                            onTap: () => CustomForm.show(
-                              context,
-                              formTitle: 'Add Restaurant',
-                              textFields: controller.addRestaurantControllers
-                                  .map((e) => TextField(
-                                        controller: e.second.value,
-                                        decoration: InputDecoration(
-                                          labelText: e.first,
-                                        ),
-                                      ))
-                                  .toList(),
-                              buttonOnPressed: () async {
-                                final _res = await controller.addRestaurant();
-                                if (_res != null) {
-                                  Get.back();
-                                  CustomSnackBar.show(
-                                    'Succeed',
-                                    'Restaurant ${_res.name} added',
-                                  );
-                                }
-                              },
-                              buttonText: 'Add',
-                            ),
+                            onTap: () => _showAddRestaurantModal(context),
                           ),
                         ],
                       ),
@@ -171,6 +167,32 @@ class HomeView extends GetView<HomeController> {
           ],
         ),
       ),
+    );
+  }
+
+  void _showAddRestaurantModal(BuildContext context) {
+    CustomForm.show(
+      context,
+      formTitle: 'Add Restaurant',
+      textFields: controller.addRestaurantControllers
+          .map((e) => TextField(
+                controller: e.second.value,
+                decoration: InputDecoration(
+                  labelText: e.first,
+                ),
+              ))
+          .toList(),
+      buttonOnPressed: () async {
+        final _res = await controller.addRestaurant();
+        if (_res != null) {
+          Get.back();
+          CustomSnackBar.show(
+            'Succeed',
+            'Restaurant ${_res.name} added',
+          );
+        }
+      },
+      buttonText: 'Add',
     );
   }
 }
