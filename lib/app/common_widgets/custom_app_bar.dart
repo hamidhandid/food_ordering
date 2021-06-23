@@ -5,10 +5,12 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
     Key? key,
     required this.title,
     this.onTap,
-    this.showLogoutAction = true,
+    this.showLogoutAction = false,
+    this.actions,
   }) : super(key: key);
   final String title;
   final VoidCallback? onTap;
+  final List<Widget>? actions;
   final bool showLogoutAction;
 
   @override
@@ -27,6 +29,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
         ),
         actions: showLogoutAction
             ? [
+                if (actions != null) ...actions!,
                 InkWell(
                   onTap: () {
                     if (onTap != null) {
