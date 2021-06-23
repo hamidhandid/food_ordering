@@ -11,6 +11,7 @@ class UserProfile {
   final int? credit;
   final List? orders_history;
   final List? favorits;
+  final String? id;
   const UserProfile({
     required this.first_name,
     required this.last_name,
@@ -19,6 +20,7 @@ class UserProfile {
     this.credit,
     this.orders_history,
     this.favorits,
+    this.id,
   });
   factory UserProfile.fromJson(Map<String, dynamic> json) => _$UserProfileFromJson(json);
   Map<String, dynamic> toJson() => _$UserProfileToJson(this);
