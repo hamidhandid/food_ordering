@@ -56,37 +56,7 @@ class HomeView extends GetView<HomeController> {
                           ),
                         ),
                       ),
-                      // Row(
-                      //   mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      //   children: [
-                      //     Text(
-                      //       LocaleKeys.home_totalRequests.tr + ": 2",
-                      //       style: TextStyle(
-                      //         fontWeight: FontWeight.bold,
-                      //         fontSize: 17,
-                      //       ),
-                      //     ),
-                      //     Container(
-                      //       height: 25,
-                      //       width: 2,
-                      //       color: Colors.grey,
-                      //     ),
-                      //     Text(
-                      //       LocaleKeys.home_totalDeliveries.tr + ": 1",
-                      //       style: TextStyle(
-                      //         fontWeight: FontWeight.bold,
-                      //         fontSize: 17,
-                      //       ),
-                      //     ),
-                      //   ],
-                      // ),
-                      // SizedBox(
-                      //   height: 30,
-                      // ),
-                      // Text(
-                      //   LocaleKeys.home_cash.tr + ": 20,000 تومان",
-                      //   style: TextStyle(fontWeight: FontWeight.w600, fontSize: 22, color: Colors.green[800]),
-                      // ),
+                      
                     ],
                   ),
                 ),

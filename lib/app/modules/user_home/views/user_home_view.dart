@@ -7,7 +7,15 @@ import 'package:get/get.dart';
 
 import '../controllers/user_home_controller.dart';
 
-class UserHomeView extends GetView<UserHomeController> {
+class UserHomeView extends StatefulWidget {
+  @override
+  _UserHomeViewState createState() => _UserHomeViewState();
+}
+
+class _UserHomeViewState extends State<UserHomeView> {
+  final controller = Get.find<UserHomeController>();
+  UserProfile? userProfile;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -19,48 +27,97 @@ class UserHomeView extends GetView<UserHomeController> {
         showLogoutAction: true,
       ),
       body: Container(
-        child: Center(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Container(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            StatefulBuilder(
+              builder: (context, customSetState) => Container(
                 padding: EdgeInsets.all(25).copyWith(bottom: 0),
-                child: SizedBox(
-                  height: 200,
-                  child: Column(
-                    children: [
-                      Text(
-                        'Parham, the Best',
-                        style: Get.textTheme.headline1,
-                      ),
-                      SizedBox(height: 20),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: MaterialButton(
-                          color: Colors.green[900],
-                          onPressed: () => _showEditProfileModal(
-                            context,
-                          ),
-                          child: Padding(
-                            padding: const EdgeInsets.all(10.0),
-                            child: Text(
-                              'Edit Your Profile',
-                              style: TextStyle(
-                                fontSize: 24,
-                                color: Colors.white,
-                                fontWeight: FontWeight.w700,
-                              ),
+                child: Column(
+                  children: [
+                    Text(
+                      'Parham, the Best',
+                      style: Get.textTheme.headline1,
+                    ),
+                    SizedBox(height: 20),
+                    FutureBuilder<UserProfile?>(
+                      future: controller.getProfile(),
+                      builder: (context, snapshot) {
+                        if (!snapshot.hasData || snapshot.hasError) {
+                          return Center(child: CircularProgressIndicator());
+                        }
+                        if (snapshot.data == null) {
+                          return Container();
+                        }
+                        userProfile = snapshot.data;
+
+                        return Column(
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              children: [
+                                Text(
+                                  snapshot.data!.first_name.isEmpty && snapshot.data!.last_name.isEmpty
+                                      ? 'Name: Not Specified'
+                                      : 'Name: ${snapshot.data!.first_name} ${snapshot.data!.last_name}',
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 20,
+                                  ),
+                                ),
+                                Container(
+                                  height: 25,
+                                  width: 2,
+                                  color: Colors.grey,
+                                ),
+                                Text(
+                                  'Area: ${snapshot.data!.area.isEmpty ? "Not Specified" : "${snapshot.data!.area}"}',
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 20,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            SizedBox(
+                              height: 30,
+                            ),
+                            Text(
+                              'Credit: ${snapshot.data!.credit} tomans',
+                              style: TextStyle(fontWeight: FontWeight.w600, fontSize: 22, color: Colors.green[800]),
+                            ),
+                          ],
+                        );
+                      },
+                    ),
+                    SizedBox(height: 30),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: MaterialButton(
+                        color: Colors.green[900],
+                        onPressed: () => _showEditProfileModal(
+                          context,
+                          userProfile: userProfile,
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.all(10.0),
+                          child: Text(
+                            'Edit Your Profile',
+                            style: TextStyle(
+                              fontSize: 24,
+                              color: Colors.white,
+                              fontWeight: FontWeight.w700,
                             ),
                           ),
                         ),
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
@@ -87,6 +144,7 @@ class UserHomeView extends GetView<UserHomeController> {
       buttonOnPressed: () async {
         await controller.editProfile();
         Get.back();
+        setState(() {});
       },
       buttonText: 'Edit Profile',
     );

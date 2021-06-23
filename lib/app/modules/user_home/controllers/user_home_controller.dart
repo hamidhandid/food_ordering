@@ -51,4 +51,9 @@ class UserHomeController extends GetxController {
       ),
     );
   }
+
+  Future<UserProfile?> getProfile() async {
+    final _api = UserApi();
+    return await _api.getProfile();
+  }
 }
