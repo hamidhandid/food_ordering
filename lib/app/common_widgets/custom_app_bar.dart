@@ -1,9 +1,15 @@
 import 'package:flutter/material.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
-  const CustomAppBar({Key? key, required this.title, this.onTap}) : super(key: key);
+  const CustomAppBar({
+    Key? key,
+    required this.title,
+    this.onTap,
+    this.showLogoutAction = true,
+  }) : super(key: key);
   final String title;
   final VoidCallback? onTap;
+  final bool showLogoutAction;
 
   @override
   Widget build(BuildContext context) {
@@ -19,27 +25,29 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
             ),
           ),
         ),
-        actions: [
-          InkWell(
-            onTap: () {
-              if (onTap != null) {
-                onTap!();
-              }
-            },
-            child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 10),
-              child: Icon(
-                Icons.logout,
-                size: 30,
-              ),
-            ),
-          ),
-        ],
+        actions: showLogoutAction
+            ? [
+                InkWell(
+                  onTap: () {
+                    if (onTap != null) {
+                      onTap!();
+                    }
+                  },
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 10),
+                    child: Icon(
+                      Icons.logout,
+                      size: 30,
+                    ),
+                  ),
+                ),
+              ]
+            : null,
         // centerTitle: true,
       ),
     );
   }
 
   @override
-  Size get preferredSize => Size.fromHeight(60);
+  Size get preferredSize => Size.fromHeight(50);
 }

@@ -6,9 +6,10 @@ class CustomForm {
   static void show(
     BuildContext context, {
     required String formTitle,
-    required List<TextField> textFields,
+    required List<Widget> textFields,
     required VoidCallback buttonOnPressed,
     String? buttonText,
+    bool showSubmitButton = true,
   }) {
     showModalBottomSheet(
       shape: const RoundedRectangleBorder(
@@ -45,17 +46,18 @@ class CustomForm {
                       ],
                     ),
                   SizedBox(height: 20),
-                  MaterialButton(
-                    onPressed: buttonOnPressed,
-                    color: Colors.greenAccent,
-                    child: Container(
-                      margin: EdgeInsets.all(10),
-                      child: Text(
-                        buttonText ?? 'Submit',
-                        style: TextStyle(fontSize: 20),
+                  if (showSubmitButton)
+                    MaterialButton(
+                      onPressed: buttonOnPressed,
+                      color: Colors.greenAccent,
+                      child: Container(
+                        margin: EdgeInsets.all(10),
+                        child: Text(
+                          buttonText ?? 'Submit',
+                          style: TextStyle(fontSize: 20),
+                        ),
                       ),
                     ),
-                  ),
                 ],
               ),
             ),
