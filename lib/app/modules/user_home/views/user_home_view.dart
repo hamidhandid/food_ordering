@@ -1,6 +1,7 @@
 import 'package:alo_self/app/common_widgets/custom_app_bar.dart';
 import 'package:alo_self/app/common_widgets/custom_form.dart';
 import 'package:alo_self/app/model/user_profile.dart';
+import 'package:alo_self/app/modules/search/views/search_view.dart';
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
@@ -113,8 +114,92 @@ class _UserHomeViewState extends State<UserHomeView> {
                         ),
                       ),
                     ),
+                    SizedBox(height: 45),
+                    Column(
+                      children: [
+                        SizedBox(height: 260),
+                        Container(
+                          width: double.infinity,
+                          decoration: BoxDecoration(
+                            color: Color(0xFFC8E6C9),
+                            borderRadius: BorderRadius.only(
+                              topLeft: Radius.circular(35),
+                              topRight: Radius.circular(35),
+                            ),
+                          ),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                children: [
+                                  _buildIconView(
+                                    Icons.search,
+                                    "Search",
+                                    onTap: () {
+                                      CustomForm.show(
+                                        context,
+                                        formTitle: 'Search',
+                                        textFields: controller.searchControllers
+                                            .map((e) => TextField(
+                                                  controller: e.second.value,
+                                                  decoration: InputDecoration(
+                                                    labelText: e.first,
+                                                  ),
+                                                ))
+                                            .toList(),
+                                        buttonOnPressed: () async {
+                                          final _resFoods = await controller.searchFoods();
+                                          await Get.to(() => SearchView(resultFoods: _resFoods,));
+                                        },
+                                        buttonText: 'Search',
+                                      );
+                                    },
+                                  ),
+                                  _buildIconView(
+                                    Icons.history,
+                                    'Orders History',
+                                    onTap: () {},
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
                   ],
                 ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildIconView(IconData iconData, String text, {VoidCallback? onTap}) {
+    return Flexible(
+      child: InkWell(
+        onTap: () {
+          if (onTap != null) {
+            onTap();
+          }
+        },
+        child: Column(
+          children: [
+            Icon(
+              iconData,
+              color: Colors.green[600],
+              size: 60,
+            ),
+            SizedBox(height: 10),
+            Text(
+              text,
+              style: TextStyle(
+                fontWeight: FontWeight.w500,
+                fontSize: 20,
               ),
             ),
           ],

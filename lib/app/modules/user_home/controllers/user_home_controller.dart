@@ -1,4 +1,5 @@
 import 'package:alo_self/app/api/user/user_api.dart';
+import 'package:alo_self/app/model/food.dart';
 import 'package:alo_self/app/model/user_profile.dart';
 import 'package:alo_self/app/modules/login/controllers/login_controller.dart';
 import 'package:alo_self/app/modules/login/views/login_view.dart';
@@ -18,6 +19,16 @@ class UserHomeController extends GetxController {
         CustomPair('Last Name', lastNameController),
         CustomPair('Area', areaController),
         CustomPair('Address', addressController),
+      ];
+
+  final searchRestaurantName = TextEditingController().obs;
+  final searchFoodName = TextEditingController().obs;
+  final searchArea = TextEditingController().obs;
+
+  List<CustomPair<String, Rx<TextEditingController>>> get searchControllers => [
+        CustomPair('Restaurant Name', searchRestaurantName),
+        CustomPair('Food Name', searchFoodName),
+        CustomPair('Area Name', searchArea),
       ];
 
   @override
@@ -55,5 +66,19 @@ class UserHomeController extends GetxController {
   Future<UserProfile?> getProfile() async {
     final _api = UserApi();
     return await _api.getProfile();
+  }
+
+  Future<List<Food>?> searchFoods() async {
+    final _api = UserApi();
+    final _search_result = await _api.searchFood(
+      restaurantName: searchRestaurantName.value.text,
+      foodName: searchFoodName.value.text,
+      area: searchArea.value.text,
+    );
+    if (_search_result != null) {
+      return _search_result.foods;
+    } else {
+      return <Food>[];
+    }
   }
 }
