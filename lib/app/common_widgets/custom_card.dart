@@ -10,10 +10,10 @@ class CustomCard<T> extends StatelessWidget {
     this.deleteCallback,
     this.addCallback,
     this.items,
+    this.iconAdd,
   }) : super(key: key);
 
   final List<CustomPair<String, String>> details;
-
 
   final VoidCallback? editCallback;
 
@@ -22,6 +22,8 @@ class CustomCard<T> extends StatelessWidget {
   final VoidCallback? addCallback;
 
   final List<CustomPair<VoidCallback, CustomPair<String, String>>>? items;
+
+  final IconData? iconAdd;
 
   @override
   Widget build(BuildContext context) {
@@ -60,9 +62,9 @@ class CustomCard<T> extends StatelessWidget {
                       ],
                     ),
                   ),
-              if (editCallback != null || deleteCallback != null)
+              if (editCallback != null || deleteCallback != null || addCallback != null) 
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     if (editCallback != null)
                       IconButton(
@@ -79,7 +81,7 @@ class CustomCard<T> extends StatelessWidget {
                     if (addCallback != null)
                       IconButton(
                         onPressed: addCallback,
-                        icon: Icon(Icons.food_bank_outlined),
+                        icon: Icon(iconAdd ?? Icons.food_bank_outlined),
                       ),
                   ],
                 ),
