@@ -15,10 +15,9 @@ class ApiRoutes {
   static const loginUser = '/user/login'; // post
   static const signupUser = '/user/signup'; // post
   static const userProfile = '/user/profile'; // put
-  static const searchFood = '/search/food'; // get
-  static const searchRestaurant = '/search/restaurant'; // get
-  static const searchArea = '/search/area'; // get
-  static const ordersPost = '/orders'; // post
+  static const searchFood = '/search'; // get
+  static const ordersPost = '/orders/{id}'; // post
+  static const ordersGet = '/orders/{id}'; // get
   static const ordersStatus = '/orders/{oid}/status'; // get
   static const commtentsPost = '/restaurant/{rid}/foods/{fid}/comments'; // post
 }
