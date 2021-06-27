@@ -11,12 +11,16 @@ import 'package:alo_self/app/modules/home/bindings/home_binding.dart';
 import 'package:alo_self/app/modules/home/views/home_view.dart';
 import 'package:alo_self/app/modules/login/bindings/login_binding.dart';
 import 'package:alo_self/app/modules/login/views/login_view.dart';
+import 'package:alo_self/app/modules/orders/bindings/orders_binding.dart';
+import 'package:alo_self/app/modules/orders/views/orders_view.dart';
 import 'package:alo_self/app/modules/profile/bindings/profile_binding.dart';
 import 'package:alo_self/app/modules/profile/views/profile_view.dart';
 import 'package:alo_self/app/modules/request/bindings/request_binding.dart';
 import 'package:alo_self/app/modules/request/views/request_view.dart';
 import 'package:alo_self/app/modules/restaurants/bindings/restaurants_binding.dart';
 import 'package:alo_self/app/modules/restaurants/views/restaurants_view.dart';
+import 'package:alo_self/app/modules/search/bindings/search_binding.dart';
+import 'package:alo_self/app/modules/search/views/search_view.dart';
 import 'package:alo_self/app/modules/setting/bindings/setting_binding.dart';
 import 'package:alo_self/app/modules/setting/views/setting_view.dart';
 import 'package:alo_self/app/modules/user_home/bindings/user_home_binding.dart';
@@ -77,6 +81,16 @@ class AppPages {
       name: _Paths.USER_HOME,
       page: () => UserHomeView(),
       binding: UserHomeBinding(),
+    ),
+    GetPage(
+      name: _Paths.SEARCH,
+      page: () => SearchView(),
+      binding: SearchBinding(),
+    ),
+    GetPage(
+      name: _Paths.ORDERS,
+      page: () => OrdersView(),
+      binding: OrdersBinding(),
     ),
   ];
 }
