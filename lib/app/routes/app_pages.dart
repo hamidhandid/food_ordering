@@ -3,20 +3,12 @@ import 'package:get_storage/get_storage.dart';
 
 import 'package:alo_self/app/modules/choose_page/bindings/choose_page_binding.dart';
 import 'package:alo_self/app/modules/choose_page/views/choose_page_view.dart';
-import 'package:alo_self/app/modules/delivery/bindings/delivery_binding.dart';
-import 'package:alo_self/app/modules/delivery/views/delivery_view.dart';
-import 'package:alo_self/app/modules/history/bindings/history_binding.dart';
-import 'package:alo_self/app/modules/history/views/history_view.dart';
 import 'package:alo_self/app/modules/home/bindings/home_binding.dart';
 import 'package:alo_self/app/modules/home/views/home_view.dart';
 import 'package:alo_self/app/modules/login/bindings/login_binding.dart';
 import 'package:alo_self/app/modules/login/views/login_view.dart';
 import 'package:alo_self/app/modules/orders/bindings/orders_binding.dart';
 import 'package:alo_self/app/modules/orders/views/orders_view.dart';
-import 'package:alo_self/app/modules/profile/bindings/profile_binding.dart';
-import 'package:alo_self/app/modules/profile/views/profile_view.dart';
-import 'package:alo_self/app/modules/request/bindings/request_binding.dart';
-import 'package:alo_self/app/modules/request/views/request_view.dart';
 import 'package:alo_self/app/modules/restaurants/bindings/restaurants_binding.dart';
 import 'package:alo_self/app/modules/restaurants/views/restaurants_view.dart';
 import 'package:alo_self/app/modules/search/bindings/search_binding.dart';
@@ -43,29 +35,9 @@ class AppPages {
       binding: LoginBinding(),
     ),
     GetPage(
-      name: _Paths.DELIVERY,
-      page: () => DeliveryView(),
-      binding: DeliveryBinding(),
-    ),
-    GetPage(
-      name: _Paths.REQUEST,
-      page: () => RequestView(),
-      binding: RequestBinding(),
-    ),
-    GetPage(
-      name: _Paths.PROFILE,
-      page: () => ProfileView(),
-      binding: ProfileBinding(),
-    ),
-    GetPage(
       name: _Paths.SETTING,
       page: () => SettingView(),
       binding: SettingBinding(),
-    ),
-    GetPage(
-      name: _Paths.HISTORY,
-      page: () => HistoryView(),
-      binding: HistoryBinding(),
     ),
     GetPage(
       name: _Paths.RESTAURANTS,

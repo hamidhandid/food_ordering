@@ -3,6 +3,7 @@ import 'package:alo_self/app/common_widgets/custom_button.dart';
 import 'package:alo_self/app/common_widgets/custom_form.dart';
 import 'package:alo_self/app/common_widgets/custom_snackbar.dart';
 import 'package:alo_self/app/common_widgets/custom_text_field.dart';
+import 'package:alo_self/app/model/restaurant.dart';
 import 'package:alo_self/app/modules/restaurants/controllers/restaurants_controller.dart';
 import 'package:alo_self/app/modules/restaurants/views/restaurants_view.dart';
 import 'package:alo_self/generated/locales.g.dart';
@@ -15,6 +16,8 @@ import '../controllers/home_controller.dart';
 class HomeView extends GetView<HomeController> {
   @override
   Widget build(BuildContext context) {
+    final restaurantsController = Get.put(RestaurantsController());
+
     return Scaffold(
       appBar: CustomAppBar(
         title: 'خانه مدیر',
@@ -40,9 +43,39 @@ class HomeView extends GetView<HomeController> {
                         style: Get.textTheme.headline1,
                       ),
                       SizedBox(height: 20),
-                      CustomButton(
-                        buttonOnPressed: () => _showAddRestaurantModal(context),
-                        buttonText: 'رستوران خود را اضافه کنید',
+                      FutureBuilder<List<Restaurant>?>(
+                        future: restaurantsController.getRestaurants(),
+                        builder: (BuildContext context, AsyncSnapshot<List<Restaurant>?> snapshot) {
+                          return !snapshot.hasData || snapshot.hasError
+                              ? CircularProgressIndicator()
+                              : snapshot.data == null || snapshot.data!.isEmpty
+                                  ? CustomButton(
+                                      buttonOnPressed: () => _showAddRestaurantModal(context),
+                                      buttonText: 'رستوران خود را اضافه کنید',
+                                    )
+                                  : Padding(
+                                    padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                                    child: Row(
+                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Text(
+                                            'تعداد رستوران‌ها: ${snapshot.data!.length}',
+                                            style: TextStyle(
+                                              fontSize: 18,
+                                              fontWeight: FontWeight.w600,
+                                            ),
+                                          ),
+                                          Text(
+                                            'تعداد غذاها: ${snapshot.data!.fold(0, (int previousValue, element) => previousValue + (element.foods?.length ?? 0))}',
+                                            style: TextStyle(
+                                              fontSize: 18,
+                                              fontWeight: FontWeight.w600,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                  );
+                        },
                       ),
                     ],
                   ),
