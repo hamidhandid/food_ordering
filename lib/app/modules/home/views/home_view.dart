@@ -31,6 +31,17 @@ class _HomeViewState extends State<HomeView> {
           await controller.logout();
         },
         showLogoutAction: true,
+        actions: [
+          IconButton(
+            onPressed: () {
+              setState(() {});
+            },
+            icon: Icon(
+              Icons.replay_outlined,
+              size: 30,
+            ),
+          ),
+        ],
       ),
       body: Container(
         child: Center(
