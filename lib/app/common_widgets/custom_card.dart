@@ -29,6 +29,7 @@ class NormalCard extends StatelessWidget {
     this.deleteCallback,
     this.addCallback,
     this.iconAdd,
+    this.additionalWidgets,
   });
 
   final String topStart;
@@ -36,13 +37,14 @@ class NormalCard extends StatelessWidget {
   final String? bottomStart;
   final String? bottomEnd;
   final String? centerText;
-  final List<CustomPair<VoidCallback, CustomPair<String, String>>>? additionalRowPairs;
+  final List<CustomPair<VoidCallback?, CustomPair<String, String>>>? additionalRowPairs;
   final EdgeInsetsGeometry? padding;
   final VoidCallback? editCallback;
   final VoidCallback? deleteCallback;
   final VoidCallback? addCallback;
   final IconData? iconAdd;
   final String additionItemsTitle;
+  final List<Widget>? additionalWidgets;
 
   @override
   Widget build(BuildContext context) {
@@ -178,15 +180,23 @@ class NormalCard extends StatelessWidget {
                           ),
                           padding: padding,
                         ),
-                        _padding(
-                          context,
-                          IconButton(
-                            onPressed: rowPair.first,
-                            icon: Icon(Icons.edit_outlined),
+                        if (rowPair.first != null)
+                          _padding(
+                            context,
+                            IconButton(
+                              onPressed: rowPair.first,
+                              icon: Icon(Icons.edit_outlined),
+                            ),
                           ),
-                        ),
                       ],
                     ),
+                if (additionalWidgets != null)
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      for (final additionWidget in additionalWidgets!) additionWidget,
+                    ],
+                  )
               ],
             ),
           ),
