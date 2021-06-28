@@ -8,6 +8,7 @@ import 'package:alo_self/app/model/login_result.dart';
 import 'package:alo_self/app/model/user.dart';
 import 'package:alo_self/app/model/user_profile.dart';
 import 'package:dio/dio.dart';
+import 'package:get_storage/get_storage.dart';
 import '../api_agent.dart';
 
 class UserApi {
@@ -73,9 +74,11 @@ class UserApi {
       }
       // return LoginResult(token: res as);
       print(res?.data);
+      final result = UserProfile.fromJson(res!.data as Map<String, dynamic>);
+      await GetStorage().write('userId', result.id);
       // print(_res.statusCode);
       // print(json.decode(_res.data));
-      return UserProfile.fromJson(res!.data as Map<String, dynamic>);
+      return result;
     });
   }
 
@@ -123,24 +126,4 @@ class UserApi {
       return Foods.fromJson(res!.data as Map<String, dynamic>);
     });
   }
-
-  // Future<Order?> getProfile() {
-  //   return invokeApi<UserProfile>((dio) async {
-  //     Response? res;
-  //     try {
-  //       res = await dio.get(
-  //         ApiRoutes.userProfile,
-  //       );
-  //     } on DioError catch (e) {
-  //       print(e.message);
-  //       print(e.response?.data);
-  //       print(e.response?.statusCode);
-  //     }
-  //     // return LoginResult(token: res as);
-  //     print(res?.data);
-  //     // print(_res.statusCode);
-  //     // print(json.decode(_res.data));
-  //     return UserProfile.fromJson(res!.data as Map<String, dynamic>);
-  //   });
-  // }
 }
