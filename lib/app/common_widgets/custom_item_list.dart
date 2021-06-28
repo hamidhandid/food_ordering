@@ -9,7 +9,7 @@ class CustomItemList extends StatelessWidget {
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: Container(
-        padding: EdgeInsets.all(10),
+        padding: EdgeInsets.all(35),
         child: Column(
           children: [
             for (final item in items)

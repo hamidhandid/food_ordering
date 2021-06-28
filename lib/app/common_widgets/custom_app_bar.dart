@@ -18,29 +18,32 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
     return SafeArea(
       child: AppBar(
         title: Padding(
-          padding: const EdgeInsets.all(15.0),
+          padding: const EdgeInsets.all(5.0),
           child: Text(
             title,
             style: TextStyle(
-              fontWeight: FontWeight.w900,
-              fontSize: 28,
+              fontWeight: FontWeight.w800,
+              fontSize: 26,
             ),
           ),
         ),
         actions: showLogoutAction
             ? [
                 if (actions != null) ...actions!,
-                InkWell(
-                  onTap: () {
-                    if (onTap != null) {
-                      onTap!();
-                    }
-                  },
-                  child: Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 10),
-                    child: Icon(
-                      Icons.logout,
-                      size: 30,
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 5),
+                  child: InkWell(
+                    onTap: () {
+                      if (onTap != null) {
+                        onTap!();
+                      }
+                    },
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 10),
+                      child: Icon(
+                        Icons.logout,
+                        size: 30,
+                      ),
                     ),
                   ),
                 ),

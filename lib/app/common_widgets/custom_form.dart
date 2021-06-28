@@ -1,4 +1,6 @@
+import 'package:alo_self/app/common_widgets/custom_button.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class CustomForm {
   const CustomForm() : super();
@@ -10,6 +12,7 @@ class CustomForm {
     required VoidCallback buttonOnPressed,
     String? buttonText,
     bool showSubmitButton = true,
+    VoidCallback? deleteCallback,
   }) {
     showModalBottomSheet(
       shape: const RoundedRectangleBorder(
@@ -19,50 +22,65 @@ class CustomForm {
         ),
       ),
       isScrollControlled: true,
+      enableDrag: true,
       context: context,
-      builder: (context) => SafeArea(
-        child: Directionality(
-          textDirection: TextDirection.ltr,
-          child: Container(
-            padding: EdgeInsets.symmetric(horizontal: 25, vertical: 20),
-            child: Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Text(
-                    formTitle,
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  for (int i = 0; i < textFields.length; i++)
-                    Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        textFields[i],
-                        SizedBox(height: 15),
-                      ],
-                    ),
-                  SizedBox(height: 20),
-                  if (showSubmitButton)
-                    MaterialButton(
-                      onPressed: buttonOnPressed,
-                      color: Colors.greenAccent,
-                      child: Container(
-                        margin: EdgeInsets.all(10),
-                        child: Text(
-                          buttonText ?? 'Submit',
-                          style: TextStyle(fontSize: 20),
+      builder: (context) => Wrap(
+        children: [
+          SafeArea(
+            child: Container(
+              // color: Theme.of(context).backgroundColor.withOpacity(0.5),
+              padding: EdgeInsets.symmetric(horizontal: 25, vertical: 20),
+              child: Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    if (deleteCallback == null)
+                      Text(
+                        formTitle,
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
                         ),
+                      )
+                    else
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            formTitle,
+                            style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          IconButton(
+                            onPressed: deleteCallback,
+                            icon: Icon(Icons.delete_outline, size: 35),
+                          ),
+                        ],
                       ),
-                    ),
-                ],
+                    SizedBox(height: 20),
+                    for (int i = 0; i < textFields.length; i++)
+                      Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          textFields[i],
+                          SizedBox(height: 20),
+                        ],
+                      ),
+                    SizedBox(height: 10),
+                    if (showSubmitButton)
+                      CustomButton(
+                        buttonOnPressed: buttonOnPressed,
+                        buttonText: buttonText,
+                      )
+                  ],
+                ),
               ),
             ),
           ),
-        ),
+        ],
       ),
     );
   }

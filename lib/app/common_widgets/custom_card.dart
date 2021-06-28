@@ -1,94 +1,224 @@
 import 'package:alo_self/app/common_widgets/custom_radius_container.dart';
-import 'package:alo_self/app/utils/custom_pair.dart';
+import 'package:alo_self/app/common_widgets/custom_pair.dart';
 import 'package:flutter/material.dart';
 
-class CustomCard<T> extends StatelessWidget {
-  const CustomCard({
-    Key? key,
-    required this.details,
-    this.editCallback,
-    this.deleteCallback,
-    this.addCallback,
-    this.items,
-    this.iconAdd,
-  }) : super(key: key);
+class CustomGridCard extends StatelessWidget {
+  const CustomGridCard({Key? key, required this.child}) : super(key: key);
 
-  final List<CustomPair<String, String>> details;
-
-  final VoidCallback? editCallback;
-
-  final VoidCallback? deleteCallback;
-
-  final VoidCallback? addCallback;
-
-  final List<CustomPair<VoidCallback, CustomPair<String, String>>>? items;
-
-  final IconData? iconAdd;
+  final Widget child;
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(15),
-      child: CustomRaduisContainer(
-        radius: 10,
-        child: Container(
-          color: Colors.white,
-          child: Column(
-            children: [
-              for (final detail in details)
-                Padding(
-                  padding: EdgeInsets.all(10),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      child: child,
+    );
+  }
+}
+
+class NormalCard extends StatelessWidget {
+  const NormalCard({
+    required this.topStart,
+    required this.additionItemsTitle,
+    this.topEnd,
+    this.bottomStart,
+    this.bottomEnd,
+    this.centerText,
+    this.additionalRowPairs,
+    this.padding,
+    this.editCallback,
+    this.deleteCallback,
+    this.addCallback,
+    this.iconAdd,
+  });
+
+  final String topStart;
+  final String? topEnd;
+  final String? bottomStart;
+  final String? bottomEnd;
+  final String? centerText;
+  final List<CustomPair<VoidCallback, CustomPair<String, String>>>? additionalRowPairs;
+  final EdgeInsetsGeometry? padding;
+  final VoidCallback? editCallback;
+  final VoidCallback? deleteCallback;
+  final VoidCallback? addCallback;
+  final IconData? iconAdd;
+  final String additionItemsTitle;
+
+  @override
+  Widget build(BuildContext context) {
+    return CustomGridCard(
+      child: Container(
+        child: CustomRaduisContainer(
+          radius: 7,
+          child: Container(
+            color: Colors.white,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                SizedBox(height: 10),
+                _buildRow(
+                  children: [
+                    _padding(
+                      context,
+                      _buildCustomText(
+                        context,
+                        text: topStart,
+                        fontSize: 18,
+                        fontWeight: FontWeight.w600,
+                      ),
+                      padding: padding,
+                    ),
+                    _padding(
+                      context,
+                      _buildRow(children: [
+                        if (editCallback != null)
+                          IconButton(
+                            onPressed: editCallback,
+                            icon: Icon(
+                              Icons.edit,
+                              size: 27,
+                            ),
+                          ),
+                        SizedBox(width: 10),
+                        if (deleteCallback != null)
+                          IconButton(
+                            onPressed: deleteCallback,
+                            icon: Icon(
+                              Icons.delete,
+                              size: 27,
+                            ),
+                          ),
+                        if (additionalRowPairs == null && addCallback != null)
+                          IconButton(
+                            onPressed: addCallback,
+                            icon: Icon(
+                              iconAdd ?? Icons.food_bank_outlined,
+                              size: 27,
+                            ),
+                          ),
+                      ]),
+                      padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                    )
+                  ],
+                ),
+                if (centerText != null)
+                  Center(
+                    child: CustomRaduisContainer(
+                      radius: 3,
+                      child: _padding(
+                        context,
+                        Directionality(
+                          textDirection: TextDirection.ltr,
+                          child: _buildCustomText(context, text: centerText!, fontSize: 16),
+                        ),
+                        padding: padding,
+                      ),
+                    ),
+                  ),
+                if (bottomStart != null || bottomEnd != null)
+                  _buildRow(
                     children: [
-                      Text(detail.first),
-                      Text(detail.second),
+                      if (bottomStart != null)
+                        _padding(
+                          context,
+                          _buildCustomText(context, text: bottomStart!, isSecondary: true),
+                          padding: padding,
+                        ),
+                      if (bottomEnd != null)
+                        _padding(
+                          context,
+                          _buildCustomText(context, text: bottomEnd!, isSecondary: true),
+                          padding: padding,
+                        ),
                     ],
                   ),
-                ),
-              if (items != null)
-                for (final item in items!)
-                  Padding(
-                    padding: EdgeInsets.all(10),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                if (additionalRowPairs != null) SizedBox(height: 30),
+                if (additionalRowPairs != null)
+                  _padding(
+                    context,
+                    _buildRow(
                       children: [
-                        Text(item.second.first),
-                        Text(item.second.second),
-                        IconButton(
-                          onPressed: item.first,
-                          icon: Icon(Icons.edit_outlined),
+                        Text(
+                          additionItemsTitle,
+                          style: TextStyle(
+                            fontSize: 17,
+                            fontWeight: FontWeight.w700,
+                          ),
                         ),
+                        if (addCallback != null)
+                          IconButton(
+                            onPressed: addCallback,
+                            icon: Icon(
+                              iconAdd ?? Icons.add_box_outlined,
+                              size: 27,
+                            ),
+                          ),
                       ],
                     ),
                   ),
-              if (editCallback != null || deleteCallback != null || addCallback != null) 
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    if (editCallback != null)
-                      IconButton(
-                        onPressed: editCallback,
-                        icon: Icon(Icons.edit),
-                      ),
-                    SizedBox(width: 10),
-                    if (deleteCallback != null)
-                      IconButton(
-                        onPressed: deleteCallback,
-                        icon: Icon(Icons.delete),
-                      ),
-                    SizedBox(width: 10),
-                    if (addCallback != null)
-                      IconButton(
-                        onPressed: addCallback,
-                        icon: Icon(iconAdd ?? Icons.food_bank_outlined),
-                      ),
-                  ],
-                ),
-            ],
+                if (additionalRowPairs != null)
+                  for (final rowPair in additionalRowPairs!)
+                    _buildRow(
+                      children: [
+                        _padding(
+                          context,
+                          _buildCustomText(
+                            context,
+                            text: rowPair.second.first,
+                            isSecondary: true,
+                          ),
+                          padding: padding,
+                        ),
+                        _padding(
+                          context,
+                          _buildCustomText(
+                            context,
+                            text: rowPair.second.second,
+                            isSecondary: true,
+                          ),
+                          padding: padding,
+                        ),
+                        _padding(
+                          context,
+                          IconButton(
+                            onPressed: rowPair.first,
+                            icon: Icon(Icons.edit_outlined),
+                          ),
+                        ),
+                      ],
+                    ),
+              ],
+            ),
           ),
         ),
       ),
+    );
+  }
+
+  Widget _buildCustomText(BuildContext context,
+      {required String text, bool isSecondary = false, double? fontSize, FontWeight? fontWeight}) {
+    return Text(
+      text,
+      style: TextStyle(
+        color: Colors.black87,
+        fontSize: fontSize ?? 14,
+        fontWeight: fontWeight ?? FontWeight.w300,
+      ),
+    );
+  }
+
+  Widget _padding(BuildContext context, Widget child, {EdgeInsetsGeometry? padding}) {
+    return Container(
+      padding: padding ?? EdgeInsets.symmetric(horizontal: 15, vertical: 10).copyWith(top: 0),
+      child: child,
+    );
+  }
+
+  Widget _buildRow(
+      {required List<Widget> children, MainAxisAlignment mainAxisAlignment = MainAxisAlignment.spaceBetween}) {
+    return Row(
+      mainAxisAlignment: mainAxisAlignment,
+      children: children,
     );
   }
 }
