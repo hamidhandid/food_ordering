@@ -14,6 +14,7 @@ class CustomForm {
     bool showSubmitButton = true,
     VoidCallback? deleteCallback,
     bool showTextFields = true,
+    bool hasBackgroundColor = false,
   }) {
     showModalBottomSheet(
       shape: const RoundedRectangleBorder(
@@ -30,7 +31,7 @@ class CustomForm {
           children: [
             SafeArea(
               child: Container(
-                // color: Theme.of(context).backgroundColor.withOpacity(0.5),
+                color: hasBackgroundColor ? Theme.of(context).backgroundColor : null,
                 padding: EdgeInsets.symmetric(horizontal: 25, vertical: 20),
                 child: Center(
                   child: Column(
