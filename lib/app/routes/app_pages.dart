@@ -1,8 +1,11 @@
+import 'package:alo_self/app/common_widgets/custom_time_line.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 
 import 'package:alo_self/app/modules/choose_page/bindings/choose_page_binding.dart';
 import 'package:alo_self/app/modules/choose_page/views/choose_page_view.dart';
+import 'package:alo_self/app/modules/delivery/bindings/delivery_binding.dart';
+import 'package:alo_self/app/modules/delivery/views/delivery_view.dart';
 import 'package:alo_self/app/modules/home/bindings/home_binding.dart';
 import 'package:alo_self/app/modules/home/views/home_view.dart';
 import 'package:alo_self/app/modules/login/bindings/login_binding.dart';
@@ -28,6 +31,10 @@ class AppPages {
       name: _Paths.HOME,
       page: () => HomeView(),
       binding: HomeBinding(),
+    ),
+    GetPage(
+      name: _Paths.TIMELINE,
+      page: () => CustomTimeLine(),
     ),
     GetPage(
       name: _Paths.LOGIN,
@@ -63,6 +70,11 @@ class AppPages {
       name: _Paths.ORDERS,
       page: () => OrdersView(),
       binding: OrdersBinding(),
+    ),
+    GetPage(
+      name: _Paths.DELIVERY,
+      page: () => DeliveryView(),
+      binding: DeliveryBinding(),
     ),
   ];
 }
