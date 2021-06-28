@@ -1,5 +1,7 @@
 import 'package:alo_self/app/common_widgets/custom_app_bar.dart';
+import 'package:alo_self/app/common_widgets/custom_button.dart';
 import 'package:alo_self/app/common_widgets/custom_form.dart';
+import 'package:alo_self/app/common_widgets/custom_text_field.dart';
 import 'package:alo_self/app/model/user_profile.dart';
 import 'package:alo_self/app/modules/search/views/search_view.dart';
 import 'package:flutter/material.dart';
@@ -21,159 +23,153 @@ class _UserHomeViewState extends State<UserHomeView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: CustomAppBar(
-        title: 'User Home',
+        title: 'خانه',
         onTap: () async {
           await controller.logout();
         },
         showLogoutAction: true,
       ),
       body: Container(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            StatefulBuilder(
-              builder: (context, customSetState) => Container(
-                padding: EdgeInsets.all(25).copyWith(bottom: 0),
-                child: Column(
-                  children: [
-                    Text(
-                      'Parham, the Best',
-                      style: Get.textTheme.headline1,
-                    ),
-                    SizedBox(height: 20),
-                    FutureBuilder<UserProfile?>(
-                      future: controller.getProfile(),
-                      builder: (context, snapshot) {
-                        if (!snapshot.hasData || snapshot.hasError) {
-                          return Center(child: CircularProgressIndicator());
-                        }
-                        if (snapshot.data == null) {
-                          return Container();
-                        }
-                        userProfile = snapshot.data;
+        child: StatefulBuilder(
+          builder: (context, customSetState) => Container(
+            child: Column(
+              children: [
+                Text(
+                  'الوسلف',
+                  style: Get.textTheme.headline1,
+                ),
+                SizedBox(height: 20),
+                FutureBuilder<UserProfile?>(
+                  future: controller.getProfile(),
+                  builder: (context, snapshot) {
+                    if (!snapshot.hasData || snapshot.hasError) {
+                      return Center(child: CircularProgressIndicator());
+                    }
+                    if (snapshot.data == null) {
+                      return Container();
+                    }
+                    userProfile = snapshot.data;
 
-                        return Column(
+                    return Column(
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceAround,
-                              children: [
-                                Text(
-                                  snapshot.data!.first_name.isEmpty && snapshot.data!.last_name.isEmpty
-                                      ? 'Name: Not Specified'
-                                      : 'Name: ${snapshot.data!.first_name} ${snapshot.data!.last_name}',
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 20,
-                                  ),
-                                ),
-                                Container(
-                                  height: 25,
-                                  width: 2,
-                                  color: Colors.grey,
-                                ),
-                                Text(
-                                  'Area: ${snapshot.data!.area.isEmpty ? "Not Specified" : "${snapshot.data!.area}"}',
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 20,
-                                  ),
-                                ),
-                              ],
+                            Text(
+                              snapshot.data!.first_name.isEmpty && snapshot.data!.last_name.isEmpty
+                                  ? 'نام: نامشخص'
+                                  : 'نام: ${snapshot.data!.first_name} ${snapshot.data!.last_name}',
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 20,
+                              ),
                             ),
-                            SizedBox(
-                              height: 30,
+                            Container(
+                              height: 25,
+                              width: 2,
+                              color: Colors.grey,
                             ),
                             Text(
-                              'Credit: ${snapshot.data!.credit} tomans',
-                              style: TextStyle(fontWeight: FontWeight.w600, fontSize: 22, color: Colors.green[800]),
+                              'منطقه: ${snapshot.data!.area.isEmpty ? "نامشخص" : "${snapshot.data!.area}"}',
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 20,
+                              ),
                             ),
                           ],
-                        );
-                      },
-                    ),
-                    SizedBox(height: 30),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: MaterialButton(
-                        color: Colors.green[900],
-                        onPressed: () => _showEditProfileModal(
-                          context,
-                          userProfile: userProfile,
                         ),
-                        child: Padding(
-                          padding: const EdgeInsets.all(10.0),
-                          child: Text(
-                            'Edit Your Profile',
-                            style: TextStyle(
-                              fontSize: 24,
-                              color: Colors.white,
-                              fontWeight: FontWeight.w700,
-                            ),
-                          ),
+                        SizedBox(
+                          height: 30,
                         ),
+                        Text(
+                          'اعتبار: ${snapshot.data!.credit} تومان',
+                          style: TextStyle(fontWeight: FontWeight.w600, fontSize: 22, color: Colors.green[800]),
+                        ),
+                      ],
+                    );
+                  },
+                ),
+                SizedBox(height: 30),
+                CustomButton(
+                  buttonOnPressed: () => _showEditProfileModal(
+                    context,
+                    userProfile: userProfile,
+                  ),
+                  buttonText: 'پروفایل خود را کامل کنید',
+                ),
+                SizedBox(height: 45),
+                Expanded(
+                  child: Container(
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                      color: Color(0xFFC8E6C9),
+                      borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(35),
+                        topRight: Radius.circular(35),
                       ),
                     ),
-                    SizedBox(height: 45),
-                    Column(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
-                        SizedBox(height: 260),
-                        Container(
-                          width: double.infinity,
-                          decoration: BoxDecoration(
-                            color: Color(0xFFC8E6C9),
-                            borderRadius: BorderRadius.only(
-                              topLeft: Radius.circular(35),
-                              topRight: Radius.circular(35),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            _buildIconView(
+                              Icons.search,
+                              "جستجو میان غذاها",
+                              onTap: () {
+                                CustomForm.show(
+                                  context,
+                                  formTitle: 'جستجوی غذا',
+                                  textFields: controller.searchControllers
+                                      .map((e) => CustomTextField(
+                                            controller: e.second.value,
+                                            labelText: e.first,
+                                          ))
+                                      .toList(),
+                                  buttonOnPressed: () async {
+                                    final _resFoods = await controller.searchFoods();
+                                    await Get.off(() => SearchView(
+                                          resultFoods: _resFoods,
+                                        ));
+                                  },
+                                  buttonText: 'جستجو',
+                                );
+                              },
                             ),
-                          ),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: [
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                children: [
-                                  _buildIconView(
-                                    Icons.search,
-                                    "Search",
-                                    onTap: () {
-                                      CustomForm.show(
-                                        context,
-                                        formTitle: 'Search',
-                                        textFields: controller.searchControllers
-                                            .map((e) => TextField(
-                                                  controller: e.second.value,
-                                                  decoration: InputDecoration(
-                                                    labelText: e.first,
-                                                  ),
-                                                ))
-                                            .toList(),
-                                        buttonOnPressed: () async {
-                                          final _resFoods = await controller.searchFoods();
-                                          await Get.to(() => SearchView(resultFoods: _resFoods,));
-                                        },
-                                        buttonText: 'Search',
-                                      );
-                                    },
-                                  ),
-                                  _buildIconView(
-                                    Icons.history,
-                                    'Orders History',
-                                    onTap: () {},
-                                  ),
-                                ],
+                            _buildIconView(
+                              Icons.history,
+                              'سابقه سفارش‌ها',
+                              onTap: () {},
+                            ),
+                          ],
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            _buildIconView(
+                              Icons.delivery_dining_rounded,
+                              'سابقه ارسال‌ها',
+                              onTap: () {},
+                            ),
+                            _buildIconView(
+                              Icons.person_outline_rounded,
+                              'ویرایش پروفایل',
+                              onTap: () => _showEditProfileModal(
+                                context,
+                                userProfile: userProfile,
                               ),
-                            ],
-                          ),
+                            ),
+                          ],
                         ),
                       ],
                     ),
-                  ],
+                  ),
                 ),
-              ),
+              ],
             ),
-          ],
+          ),
         ),
       ),
     );
@@ -217,13 +213,11 @@ class _UserHomeViewState extends State<UserHomeView> {
     }
     CustomForm.show(
       context,
-      formTitle: 'User Profile',
+      formTitle: 'پروفایل کاربر',
       textFields: controller.editProfileControllers
-          .map((e) => TextField(
+          .map((e) => CustomTextField(
                 controller: e.second.value,
-                decoration: InputDecoration(
-                  labelText: e.first,
-                ),
+                labelText: e.first,
               ))
           .toList(),
       buttonOnPressed: () async {
@@ -231,7 +225,7 @@ class _UserHomeViewState extends State<UserHomeView> {
         Get.back();
         setState(() {});
       },
-      buttonText: 'Edit Profile',
+      buttonText: 'ویرایش پروفایل',
     );
   }
 }

@@ -2,7 +2,7 @@ import 'package:alo_self/app/common_widgets/custom_card.dart';
 import 'package:alo_self/app/common_widgets/custom_form.dart';
 import 'package:alo_self/app/common_widgets/custom_item_list.dart';
 import 'package:alo_self/app/model/food.dart';
-import 'package:alo_self/app/utils/custom_pair.dart';
+import 'package:alo_self/app/common_widgets/custom_pair.dart';
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
@@ -35,7 +35,7 @@ class _SearchViewState extends State<SearchView> {
                   child: Text(
                     controller.foodsToOrder.length.toString(),
                     style: TextStyle(
-                      color: Colors.red[500],
+                      color: Colors.white,
                       fontSize: 18,
                     ),
                   ),
@@ -47,37 +47,22 @@ class _SearchViewState extends State<SearchView> {
                   controller.foodsToOrder.fold<int>(0, (int previousValue, element) => (element.cost + previousValue));
               CustomForm.show(
                 context,
-                formTitle: 'Make Order',
+                formTitle: 'سفارش غذا',
                 textFields: [
                   ...controller.foodsToOrder
                       .map(
-                        (element) => CustomCard(
-                          details: [
-                            CustomPair('Name: ${element.name}', 'Price: ${element.cost.toString()}'),
-                          ],
+                        (element) => NormalCard(
+                          topStart: 'نام غذا: ${element.name}',
+                          bottomStart: 'قیمت غذا: ${element.cost.toString()}',
+                          additionItemsTitle: 'سفارش‌ها',
                         ),
                       )
                       .toList(),
                   SizedBox(height: 30),
-                  // MaterialButton(
-                  //   color: Colors.green[900],
-                  //   onPressed: () {},
-                  //   child: Padding(
-                  //     padding: const EdgeInsets.all(10.0),
-                  //     child: Text(
-                  //       'Make Order',
-                  //       style: TextStyle(
-                  //         fontSize: 24,
-                  //         color: Colors.white,
-                  //         fontWeight: FontWeight.w700,
-                  //       ),
-                  //     ),
-                  //   ),
-                  // ),
-                  Text('Total Price: $totalValue'),
+                  Text('مجموع هزینه: $totalValue'),
                 ],
                 buttonOnPressed: () {},
-                buttonText: 'Make Order',
+                buttonText: 'سفارش',
               );
             },
           ),
@@ -85,21 +70,21 @@ class _SearchViewState extends State<SearchView> {
       ),
       body: widget.resultFoods == null || widget.resultFoods!.isEmpty
           ? Center(
-              child: Text('No Result!'),
+              child: Text('نتیجه‌ای یافت نشد'),
             )
           : CustomItemList(
               items: widget.resultFoods!
                   .where((e) => e.orderable)
                   .map(
-                    (e) => CustomCard(
-                      details: [
-                        CustomPair('Name: ${e.name}', 'Price: ${e.cost}'),
-                      ],
+                    (e) => NormalCard(
+                      topStart: 'نام غذا: ${e.name}',
+                      bottomStart: 'قیمت غذا: ${e.cost}',
                       addCallback: () {
                         controller.foodsToOrder.add(e);
                         setState(() {});
                       },
                       iconAdd: Icons.add,
+                      additionItemsTitle: 'سفارش‌ها',
                     ),
                   )
                   .toList(),

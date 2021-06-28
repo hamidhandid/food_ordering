@@ -3,7 +3,7 @@ import 'package:alo_self/app/model/food.dart';
 import 'package:alo_self/app/model/user_profile.dart';
 import 'package:alo_self/app/modules/login/controllers/login_controller.dart';
 import 'package:alo_self/app/modules/login/views/login_view.dart';
-import 'package:alo_self/app/utils/custom_pair.dart';
+import 'package:alo_self/app/common_widgets/custom_pair.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
@@ -15,10 +15,10 @@ class UserHomeController extends GetxController {
   final addressController = TextEditingController().obs;
 
   List<CustomPair<String, Rx<TextEditingController>>> get editProfileControllers => [
-        CustomPair('First Name', firstNameController),
-        CustomPair('Last Name', lastNameController),
-        CustomPair('Area', areaController),
-        CustomPair('Address', addressController),
+        CustomPair('نام', firstNameController),
+        CustomPair('نام خانوادگی', lastNameController),
+        CustomPair('دانشکده', areaController),
+        CustomPair('آدرس', addressController),
       ];
 
   final searchRestaurantName = TextEditingController().obs;
@@ -26,9 +26,9 @@ class UserHomeController extends GetxController {
   final searchArea = TextEditingController().obs;
 
   List<CustomPair<String, Rx<TextEditingController>>> get searchControllers => [
-        CustomPair('Restaurant Name', searchRestaurantName),
-        CustomPair('Food Name', searchFoodName),
-        CustomPair('Area Name', searchArea),
+        CustomPair('نام رستوران', searchRestaurantName),
+        CustomPair('نام غذا', searchFoodName),
+        CustomPair('نام منطقه', searchArea),
       ];
 
   @override

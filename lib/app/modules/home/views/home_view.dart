@@ -1,6 +1,8 @@
 import 'package:alo_self/app/common_widgets/custom_app_bar.dart';
+import 'package:alo_self/app/common_widgets/custom_button.dart';
 import 'package:alo_self/app/common_widgets/custom_form.dart';
 import 'package:alo_self/app/common_widgets/custom_snackbar.dart';
+import 'package:alo_self/app/common_widgets/custom_text_field.dart';
 import 'package:alo_self/app/modules/restaurants/controllers/restaurants_controller.dart';
 import 'package:alo_self/app/modules/restaurants/views/restaurants_view.dart';
 import 'package:alo_self/generated/locales.g.dart';
@@ -15,7 +17,7 @@ class HomeView extends GetView<HomeController> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: CustomAppBar(
-        title: 'Manager Home',
+        title: 'خانه مدیر',
         onTap: () async {
           await controller.logout();
         },
@@ -34,29 +36,14 @@ class HomeView extends GetView<HomeController> {
                   child: Column(
                     children: [
                       Text(
-                        'Parham, the Best',
+                        'الوسلف',
                         style: Get.textTheme.headline1,
                       ),
                       SizedBox(height: 20),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: MaterialButton(
-                          color: Colors.green[900],
-                          onPressed: () => _showAddRestaurantModal(context),
-                          child: Padding(
-                            padding: const EdgeInsets.all(10.0),
-                            child: Text(
-                              'Add Your Restaurant',
-                              style: TextStyle(
-                                fontSize: 24,
-                                color: Colors.white,
-                                fontWeight: FontWeight.w700,
-                              ),
-                            ),
-                          ),
-                        ),
+                      CustomButton(
+                        buttonOnPressed: () => _showAddRestaurantModal(context),
+                        buttonText: 'رستوران خود را اضافه کنید',
                       ),
-                      
                     ],
                   ),
                 ),
@@ -81,7 +68,7 @@ class HomeView extends GetView<HomeController> {
                         children: [
                           _buildIconView(
                             Icons.restaurant,
-                            "Restaurant List",
+                            "لیست رستوران‌ها",
                             onTap: () {
                               // Get.lazyPut(() => RestaurantsController());
                               Get.to(() => RestaurantsView());
@@ -89,8 +76,26 @@ class HomeView extends GetView<HomeController> {
                           ),
                           _buildIconView(
                             Icons.add,
-                            "Add Restaurant",
+                            "اضافه‌کردن رستوران",
                             onTap: () => _showAddRestaurantModal(context),
+                          ),
+                        ],
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          _buildIconView(
+                            Icons.list_alt_sharp,
+                            "سفارش‌های رسیده",
+                            onTap: () {
+                              // Get.lazyPut(() => RestaurantsController());
+                              // Get.to(() => RestaurantsView());
+                            },
+                          ),
+                          _buildIconView(
+                            Icons.support_agent,
+                            "ارتباط با پشتیبانی",
+                            onTap: () {},
                           ),
                         ],
                       ),
@@ -137,13 +142,12 @@ class HomeView extends GetView<HomeController> {
   void _showAddRestaurantModal(BuildContext context) {
     CustomForm.show(
       context,
-      formTitle: 'Add Restaurant',
+      formTitle: 'اضافه‌کردن رستوران',
       textFields: controller.addRestaurantControllers
-          .map((e) => TextField(
+          .map((e) => CustomTextField(
                 controller: e.second.value,
-                decoration: InputDecoration(
-                  labelText: e.first,
-                ),
+                labelText: e.first,
+                isMoney: e.first == 'هزینه ثابت ارسال غذا',
               ))
           .toList(),
       buttonOnPressed: () async {
@@ -151,12 +155,12 @@ class HomeView extends GetView<HomeController> {
         if (_res != null) {
           Get.back();
           CustomSnackBar.show(
-            'Succeed',
-            'Restaurant ${_res.name} added',
+            'موفق',
+            'رستوران ${_res.name} اضافه شد',
           );
         }
       },
-      buttonText: 'Add',
+      buttonText: 'اضافه کردن',
     );
   }
 }

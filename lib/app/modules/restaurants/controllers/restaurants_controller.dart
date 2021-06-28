@@ -2,7 +2,8 @@ import 'package:alo_self/app/api/restaurant/food_api.dart';
 import 'package:alo_self/app/api/restaurant/restaurant_api.dart';
 import 'package:alo_self/app/model/food.dart';
 import 'package:alo_self/app/model/restaurant.dart';
-import 'package:alo_self/app/utils/custom_pair.dart';
+import 'package:alo_self/app/common_widgets/custom_pair.dart';
+import 'package:extended_masked_text/extended_masked_text.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -15,23 +16,33 @@ class RestaurantsController extends GetxController {
   final addressController = TextEditingController().obs;
   final serviceAreasController = TextEditingController().obs;
   final workHourController = TextEditingController().obs;
-  final deliverCostController = TextEditingController().obs;
+  final deliverCostController = MoneyMaskedTextController(
+    precision: 0,
+    decimalSeparator: '',
+    thousandSeparator: ',',
+    rightSymbol: ' تومان',
+  ).obs;
   List<CustomPair<String, Rx<TextEditingController>>> get editRestaurantControllers => [
-        CustomPair('Name', nameController),
-        CustomPair('Area', areaController),
-        CustomPair('Address', addressController),
-        CustomPair('Supporting Areas', serviceAreasController),
-        CustomPair('Hours', workHourController),
-        CustomPair('Deliver Cost', deliverCostController),
+        CustomPair('نام', nameController),
+        CustomPair('منطقه', areaController),
+        CustomPair('آدرس', addressController),
+        CustomPair('مناطق پشتیبانی', serviceAreasController),
+        CustomPair('ساعات کاری', workHourController),
+        CustomPair('هزینه ثابت ارسال غذا', deliverCostController),
       ];
 
   List<CustomPair<String, Rx<TextEditingController>>> get addFoodControllers => [
-        CustomPair('Food Name', foodNameController),
-        CustomPair('Food Price', foodCostController),
-        CustomPair('Number', foodNumberController),
+        CustomPair('نام غذا', foodNameController),
+        CustomPair('هزینه غذا', foodCostController),
+        CustomPair('موجودی', foodNumberController),
       ];
   final foodNameController = TextEditingController().obs;
-  final foodCostController = TextEditingController().obs;
+  final foodCostController = MoneyMaskedTextController(
+    precision: 0,
+    decimalSeparator: '',
+    thousandSeparator: ',',
+    rightSymbol: ' تومان',
+  ).obs;
   final foodNumberController = TextEditingController().obs;
   final foodIsOrderable = true.obs;
 
@@ -69,7 +80,7 @@ class RestaurantsController extends GetxController {
       address: addressController.value.text,
       service_areas: [serviceAreasController.value.text],
       work_hour: workHourController.value.text,
-      deliver_cost: int.parse(deliverCostController.value.text),
+      deliver_cost: deliverCostController.value.numberValue.toInt(),
     );
     if (_res != null) {
       return _res;
@@ -99,7 +110,12 @@ class RestaurantsController extends GetxController {
   Future<Food?> editFood(Restaurant restaurant, Food food, {bool orderable = true}) async {
     final api = FoodApi();
     final _res = await api.changeFoodOrderable(
-      food,
+      Food(
+        id: food.id,
+        name: foodNameController.value.text,
+        cost: foodCostController.value.numberValue.toInt(),
+        number: int.parse(foodNumberController.value.text),
+      ),
       orderable,
     );
     // final _rest = await RestaurantApi().editRestaurant(

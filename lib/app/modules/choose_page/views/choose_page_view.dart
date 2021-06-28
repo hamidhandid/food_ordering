@@ -1,4 +1,5 @@
 import 'package:alo_self/app/common_widgets/custom_app_bar.dart';
+import 'package:alo_self/app/common_widgets/custom_button.dart';
 import 'package:alo_self/app/modules/login/controllers/login_controller.dart';
 import 'package:alo_self/app/modules/login/views/login_view.dart';
 import 'package:flutter/material.dart';
@@ -14,7 +15,7 @@ class ChoosePageView extends GetView<ChoosePageController> {
     return Scaffold(
       appBar: CustomAppBar(
         showLogoutAction: false,
-        title: 'Choose One Role',
+        title: 'نقش خود را انتخاب کنید',
       ),
       body: Center(
         child: Container(
@@ -22,45 +23,31 @@ class ChoosePageView extends GetView<ChoosePageController> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              MaterialButton(
-                color: Colors.green[700],
-                onPressed: () async {
+              CustomButton(
+                buttonOnPressed: () async {
                   await GetStorage().write('type', 'User');
                   Get.lazyPut<LoginController>(
                     () => LoginController(),
                   );
                   await Get.to(() => LoginView());
                 },
-                child: _buildText('I Am a User'),
+                buttonText: 'دانشجو هستم',
+                fontWeight: FontWeight.w700,
               ),
               SizedBox(height: 30),
-              MaterialButton(
-                color: Colors.green[700],
-                onPressed: () async {
+              CustomButton(
+                buttonOnPressed: () async {
                   await GetStorage().write('type', 'Manager');
                   Get.lazyPut<LoginController>(
                     () => LoginController(),
                   );
                   await Get.to(() => LoginView());
                 },
-                child: _buildText('I Am a Manager'),
+                buttonText: 'مدیر سلف هستم',
+                fontWeight: FontWeight.w700,
               ),
             ],
           ),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildText(String text) {
-    return Padding(
-      padding: const EdgeInsets.all(10.0),
-      child: Text(
-        text,
-        style: TextStyle(
-          fontWeight: FontWeight.bold,
-          fontSize: 24,
-          color: Colors.white,
         ),
       ),
     );

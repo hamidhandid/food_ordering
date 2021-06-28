@@ -36,19 +36,24 @@ class LoginView extends GetView<LoginController> {
                 if (str != null && str.length == 11 && str.startsWith('09')) {
                   return null;
                 }
-                return 'Mobile Number is not valid';
+                return 'شماره موبایل معتبر نیست';
               }
             : FlutterLogin.defaultEmailValidator,
         passwordValidator: (str) {
           if (str != null && str.length < 8) {
-            return 'password must be at least 8 characters';
+            return 'رمزعبور حداقل باید ۸ رقم باشد';
           }
           return null;
         },
-        title: 'Parham Food',
+        title: 'الوسلف',
         hideForgotPasswordButton: true,
         messages: LoginMessages(
-          userHint: _isUser ? 'Mobile Number' : 'Email',
+          userHint: _isUser ? 'شماره موبایل' : 'ایمیل',
+          passwordHint: 'رمزعبور',
+          loginButton: 'ورود',
+          signupButton: 'ثبت‌نام',
+          confirmPasswordHint: 'تایید رمزعبور',
+          confirmPasswordError: 'رمزعبور تایید شده با رمزعبور مطابقت ندارد'
         ),
       ),
     );
