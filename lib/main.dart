@@ -13,7 +13,7 @@ void main() async {
   await _initServices();
   runApp(
     GetMaterialApp(
-      title: "Parham Food",
+      title: 'الوسلف',
       initialRoute: !(await _isLoggedIn())
           ? Routes.CHOOSE_PAGE
           : (GetStorage().read('type') == 'User')
@@ -21,7 +21,7 @@ void main() async {
               : Routes.HOME,
       getPages: AppPages.routes,
       translationsKeys: AppTranslation.translations,
-      locale: Locale('en', 'US'),
+      locale: Locale('fa', 'IR'),
       theme: LightTheme().themeData,
       darkTheme: DarkTheme().themeData,
       debugShowCheckedModeBanner: false,
