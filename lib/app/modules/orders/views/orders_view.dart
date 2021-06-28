@@ -1,4 +1,9 @@
+import 'package:alo_self/app/common_widgets/custom_app_bar.dart';
+import 'package:alo_self/app/common_widgets/custom_button.dart';
+import 'package:alo_self/app/common_widgets/custom_card.dart';
 import 'package:alo_self/app/common_widgets/custom_item_list.dart';
+import 'package:alo_self/app/common_widgets/custom_pair.dart';
+import 'package:alo_self/app/common_widgets/custom_time_line.dart';
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
@@ -14,31 +19,68 @@ class _OrdersViewState extends State<OrdersView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('OrdersView'),
-        centerTitle: true,
+      appBar: CustomAppBar(
+        title: 'سفارش‌ها',
       ),
-      // body: FutureBuilder(
-      //   future: null,
-      //   builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {},
-      //   // child: CustomItemList(
-      //   //   items: widget.resultFoods!
-      //   //       .where((e) => e.orderable)
-      //   //       .map(
-      //   //         (e) => CustomCard(
-      //   //           details: [
-      //   //             CustomPair('Name: ${e.name}', 'Price: ${e.cost}'),
-      //   //           ],
-      //   //           addCallback: () {
-      //   //             controller.foodsToOrder.add(e);
-      //   //             setState(() {});
-      //   //           },
-      //   //           iconAdd: Icons.add,
-      //   //         ),
-      //   //       )
-      //   //       .toList(),
-      //   ),
-      // ),
+      body: CustomItemList(
+        items: [
+          NormalCard(
+            topStart: 'سفارش قورمه سبزی و قیمه',
+            bottomStart: 'زمان رسیدن: ۱۳:۳۰',
+            additionItemsTitle: 'غذاها',
+            additionalRowPairs: [
+              CustomPair(null, CustomPair('قورمه سبزی', '۳۰,۰۰۰ تومان')),
+              CustomPair(null, CustomPair('قیمه', '۲۰,۰۰۰ تومان')),
+            ],
+            additionalWidgets: [
+              SizedBox(height: 10),
+              Text(
+                'ارسال کننده: عیسی عباسی',
+                style: TextStyle(
+                  fontSize: 15,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+              SizedBox(height: 20),
+              Text(
+                'مقصد: دانشکده کامپیوتر',
+                style: TextStyle(
+                  fontSize: 15,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+              SizedBox(height: 20),
+              Text(
+                'هزینه ارسال: ۱۰,۰۰۰ تومان',
+                style: TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+              SizedBox(height: 40),
+              Text(
+                'مبلغ کل فاکتور: ۶۰,۰۰۰ تومان',
+                style: TextStyle(
+                  fontSize: 17,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              SizedBox(height: 30),
+              CustomButton(
+                buttonOnPressed: () {
+                  Get.to(() => CustomTimeLine(
+                        title: 'وضعیت سفارش قورمه سبزی و قیمه',
+                      ));
+                },
+                buttonText: 'مشاهده وضعیت سفارش',
+                fontWeight: FontWeight.bold,
+                fontSize: 16,
+              ),
+              SizedBox(height: 20),
+            ],
+          ),
+        ],
+      ),
     );
   }
 }
