@@ -7,11 +7,13 @@ class CustomButton extends StatelessWidget {
     required this.buttonOnPressed,
     this.buttonText,
     this.fontWeight,
+    this.fontSize,
   }) : super(key: key);
 
   final VoidCallback buttonOnPressed;
   final String? buttonText;
   final FontWeight? fontWeight;
+  final double? fontSize;
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +28,7 @@ class CustomButton extends StatelessWidget {
         child: Text(
           buttonText ?? 'Submit',
           style: TextStyle(
-            fontSize: 21,
+            fontSize: fontSize ?? 21,
             color: Colors.white,
             fontWeight: fontWeight ?? FontWeight.w800,
           ),
