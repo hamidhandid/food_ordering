@@ -48,7 +48,9 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                   ),
                 ),
               ]
-            : null,
+            : actions != null
+                ? [...actions!]
+                : null,
         // centerTitle: true,
       ),
     );
