@@ -48,7 +48,7 @@ class _RestaurantsViewState extends State<RestaurantsView> {
                       editCallback: () async {
                         controller.nameController.value.text = e.name;
                         controller.areaController.value.text = e.area;
-                        controller.addressController.value.text = e.address;
+                        // controller.addressController.value.text = e.address;
                         controller.serviceAreasController.value.text = e.service_areas.first;
                         controller.workHourController.value.text = e.work_hour;
                         controller.deliverCostController.value.text = e.deliver_cost.toString();

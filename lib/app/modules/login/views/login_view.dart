@@ -14,7 +14,7 @@ class LoginView extends GetView<LoginController> {
     final _isUser = GetStorage().read('type') == 'User';
     return Scaffold(
       appBar: CustomAppBar(
-        title: LocaleKeys.pageTitles_login.tr,
+        title: _isUser ? 'ورود دانشجو' : 'ورود مدیر',
         showLogoutAction: false,
       ),
       body: FlutterLogin(

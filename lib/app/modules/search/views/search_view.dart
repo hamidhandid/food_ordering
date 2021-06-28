@@ -1,3 +1,4 @@
+import 'package:alo_self/app/common_widgets/custom_app_bar.dart';
 import 'package:alo_self/app/common_widgets/custom_card.dart';
 import 'package:alo_self/app/common_widgets/custom_form.dart';
 import 'package:alo_self/app/common_widgets/custom_item_list.dart';
@@ -27,8 +28,8 @@ class _SearchViewState extends State<SearchView> {
   Widget build(BuildContext context) {
     final controller = Get.put(SearchController());
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Search'),
+      appBar: CustomAppBar(
+        title: 'نتایج جستجو',
         actions: [
           Obx(
             () => InkWell(
@@ -53,6 +54,7 @@ class _SearchViewState extends State<SearchView> {
                   context,
                   formTitle: 'سفارش غذا',
                   showTextFields: false,
+                  hasBackgroundColor: true,
                   textFields: [
                     StatefulBuilder(
                       builder: (context, customSetState) {

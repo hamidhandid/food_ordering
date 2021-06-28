@@ -4,6 +4,8 @@ import 'package:alo_self/app/common_widgets/custom_form.dart';
 import 'package:alo_self/app/common_widgets/custom_money_formatter.dart';
 import 'package:alo_self/app/common_widgets/custom_text_field.dart';
 import 'package:alo_self/app/model/user_profile.dart';
+import 'package:alo_self/app/modules/delivery/views/delivery_view.dart';
+import 'package:alo_self/app/modules/orders/views/orders_view.dart';
 import 'package:alo_self/app/modules/search/views/search_view.dart';
 import 'package:flutter/material.dart';
 
@@ -71,7 +73,7 @@ class _UserHomeViewState extends State<UserHomeView> {
                               color: Colors.grey,
                             ),
                             Text(
-                              'منطقه: ${snapshot.data!.area.isEmpty ? "نامشخص" : "${snapshot.data!.area}"}',
+                              'دانشکده: ${snapshot.data!.area.isEmpty ? "نامشخص" : "${snapshot.data!.area}"}',
                               style: TextStyle(
                                 fontWeight: FontWeight.bold,
                                 fontSize: 20,
@@ -121,7 +123,7 @@ class _UserHomeViewState extends State<UserHomeView> {
                     );
                   },
                 ),
-                SizedBox(height: 45),
+                SizedBox(height: 30),
                 Expanded(
                   child: Container(
                     width: double.infinity,
@@ -141,7 +143,7 @@ class _UserHomeViewState extends State<UserHomeView> {
                           children: [
                             _buildIconView(
                               Icons.search,
-                              "جستجو میان غذاها",
+                              'جستجوی غذاها',
                               onTap: () {
                                 CustomForm.show(
                                   context,
@@ -165,7 +167,9 @@ class _UserHomeViewState extends State<UserHomeView> {
                             _buildIconView(
                               Icons.history,
                               'سابقه سفارش‌ها',
-                              onTap: () {},
+                              onTap: () {
+                                Get.to(() => OrdersView());
+                              },
                             ),
                           ],
                         ),
@@ -175,7 +179,9 @@ class _UserHomeViewState extends State<UserHomeView> {
                             _buildIconView(
                               Icons.delivery_dining_rounded,
                               'سابقه ارسال‌ها',
-                              onTap: () {},
+                              onTap: () {
+                                Get.to(() => DeliveryView());
+                              },
                             ),
                             _buildIconView(
                               Icons.person_outline_rounded,
@@ -233,7 +239,8 @@ class _UserHomeViewState extends State<UserHomeView> {
       controller.firstNameController.value.text = userProfile.first_name;
       controller.lastNameController.value.text = userProfile.last_name;
       controller.areaController.value.text = userProfile.area;
-      controller.addressController.value.text = userProfile.address;
+      // controller.addressController.value.text = userProfile.address;
+      controller.creditController.value.text = userProfile.credit.toString();
     }
     CustomForm.show(
       context,

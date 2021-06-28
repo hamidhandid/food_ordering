@@ -44,9 +44,6 @@ class LoginController extends GetxController {
         );
         await Get.offAll(() => UserHomeView());
       } else {
-        Get.lazyPut<HomeController>(
-          () => HomeController(),
-        );
         await Get.offAll(() => HomeView());
       }
 
@@ -67,19 +64,16 @@ class LoginController extends GetxController {
     if (res != null) {
       await GetStorage().write('token', res.token);
       update();
-      
+
       if (_isUser) {
         Get.lazyPut<UserHomeController>(
           () => UserHomeController(),
         );
         await Get.offAll(() => UserHomeView());
       } else {
-        Get.lazyPut<HomeController>(
-          () => HomeController(),
-        );
         await Get.offAll(() => HomeView());
       }
-  
+
       return 'success';
     }
     return 'failure';

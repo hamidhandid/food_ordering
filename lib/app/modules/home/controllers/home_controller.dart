@@ -11,7 +11,7 @@ import 'package:get_storage/get_storage.dart';
 class HomeController extends GetxController {
   final nameController = TextEditingController().obs;
   final areaController = TextEditingController().obs;
-  final addressController = TextEditingController().obs;
+  // final addressController = TextEditingController().obs;
   final serviceAreasController = TextEditingController().obs;
   final workHourController = TextEditingController().obs;
   final deliverCostController = MoneyMaskedTextController(
@@ -22,9 +22,9 @@ class HomeController extends GetxController {
   ).obs;
   List<CustomPair<String, Rx<TextEditingController>>> get addRestaurantControllers => [
         CustomPair('نام', nameController),
-        CustomPair('منطقه', areaController),
-        CustomPair('آدرس', addressController),
-        CustomPair('منطقه‌های پیشتیبانی', serviceAreasController),
+        CustomPair('محل', areaController),
+        // CustomPair('آدرس', addressController),
+        CustomPair('دانشکده‌های پیشتیبانی', serviceAreasController),
         CustomPair('ساعات کاری', workHourController),
         CustomPair('هزینه ثابت ارسال غذا', deliverCostController),
       ];
@@ -55,7 +55,7 @@ class HomeController extends GetxController {
     final _res = await restaurantApi.addRestaurant(
       name: nameController.value.text,
       area: areaController.value.text,
-      address: addressController.value.text,
+      // address: addressController.value.text,
       service_areas: [serviceAreasController.value.text],
       work_hour: workHourController.value.text,
       deliver_cost: deliverCostController.value.numberValue.toInt(),

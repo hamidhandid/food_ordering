@@ -13,7 +13,7 @@ class RestaurantsController extends GetxController {
 
   final nameController = TextEditingController().obs;
   final areaController = TextEditingController().obs;
-  final addressController = TextEditingController().obs;
+  // final addressController = TextEditingController().obs;
   final serviceAreasController = TextEditingController().obs;
   final workHourController = TextEditingController().obs;
   final deliverCostController = MoneyMaskedTextController(
@@ -25,8 +25,8 @@ class RestaurantsController extends GetxController {
   List<CustomPair<String, Rx<TextEditingController>>> get editRestaurantControllers => [
         CustomPair('نام', nameController),
         CustomPair('منطقه', areaController),
-        CustomPair('آدرس', addressController),
-        CustomPair('مناطق پشتیبانی', serviceAreasController),
+        // CustomPair('آدرس', addressController),
+        CustomPair('دانشکده‌های سرویس دهی ', serviceAreasController),
         CustomPair('ساعات کاری', workHourController),
         CustomPair('هزینه ثابت ارسال غذا', deliverCostController),
       ];
@@ -77,7 +77,7 @@ class RestaurantsController extends GetxController {
       restaurant.id!,
       name: nameController.value.text,
       area: areaController.value.text,
-      address: addressController.value.text,
+      // address: addressController.value.text,
       service_areas: [serviceAreasController.value.text],
       work_hour: workHourController.value.text,
       deliver_cost: deliverCostController.value.numberValue.toInt(),

@@ -13,10 +13,16 @@ import 'package:get/get.dart';
 
 import '../controllers/home_controller.dart';
 
-class HomeView extends GetView<HomeController> {
+class HomeView extends StatefulWidget {
+  @override
+  _HomeViewState createState() => _HomeViewState();
+}
+
+class _HomeViewState extends State<HomeView> {
   @override
   Widget build(BuildContext context) {
     final restaurantsController = Get.put(RestaurantsController());
+    final controller = Get.put(HomeController());
 
     return Scaffold(
       appBar: CustomAppBar(
@@ -50,38 +56,49 @@ class HomeView extends GetView<HomeController> {
                               ? CircularProgressIndicator()
                               : snapshot.data == null || snapshot.data!.isEmpty
                                   ? CustomButton(
-                                      buttonOnPressed: () => _showAddRestaurantModal(context),
+                                      buttonOnPressed: () => _showAddRestaurantModal(controller, context),
                                       buttonText: 'رستوران خود را اضافه کنید',
                                     )
                                   : Padding(
-                                    padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                                    child: Row(
-                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                                      child: Column(
                                         children: [
-                                          Text(
-                                            'تعداد رستوران‌ها: ${snapshot.data!.length}',
-                                            style: TextStyle(
-                                              fontSize: 18,
-                                              fontWeight: FontWeight.w600,
-                                            ),
+                                          Row(
+                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Text(
+                                                'تعداد رستوران‌ها: ${snapshot.data!.length}',
+                                                style: TextStyle(
+                                                  fontSize: 18,
+                                                  fontWeight: FontWeight.w600,
+                                                ),
+                                              ),
+                                              Text(
+                                                'تعداد غذاها: ${snapshot.data!.fold(0, (int previousValue, element) => previousValue + (element.foods?.length ?? 0))}',
+                                                style: TextStyle(
+                                                  fontSize: 18,
+                                                  fontWeight: FontWeight.w600,
+                                                ),
+                                              ),
+                                            ],
                                           ),
-                                          Text(
-                                            'تعداد غذاها: ${snapshot.data!.fold(0, (int previousValue, element) => previousValue + (element.foods?.length ?? 0))}',
-                                            style: TextStyle(
-                                              fontSize: 18,
-                                              fontWeight: FontWeight.w600,
-                                            ),
+                                          SizedBox(height: 25),
+                                          CustomButton(
+                                            buttonOnPressed: () {},
+                                            buttonText: 'رسیدگی به سفارش‌ها',
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.bold,
                                           ),
                                         ],
                                       ),
-                                  );
+                                    );
                         },
                       ),
                     ],
                   ),
                 ),
               ),
-              SizedBox(height: 45),
+              SizedBox(height: 30),
               Expanded(
                 child: Container(
                   width: double.infinity,
@@ -110,7 +127,7 @@ class HomeView extends GetView<HomeController> {
                           _buildIconView(
                             Icons.add,
                             "اضافه‌کردن رستوران",
-                            onTap: () => _showAddRestaurantModal(context),
+                            onTap: () => _showAddRestaurantModal(controller, context),
                           ),
                         ],
                       ),
@@ -128,7 +145,21 @@ class HomeView extends GetView<HomeController> {
                           _buildIconView(
                             Icons.support_agent,
                             "ارتباط با پشتیبانی",
-                            onTap: () {},
+                            onTap: () {
+                              CustomForm.show(context, formTitle: 'انتقادها و پیشنهادها', textFields: [
+                                CustomTextField(
+                                  controller: TextEditingController(),
+                                  labelText: 'عنوان',
+                                ),
+                                CustomTextField(
+                                  controller: TextEditingController(),
+                                  labelText: 'متن',
+                                ),
+                              ], buttonOnPressed: () {
+                                Get.back();
+                                CustomSnackBar.show('موفق', 'نظر شما ارسال شد');
+                              }, buttonText: 'ارسال نظر');
+                            },
                           ),
                         ],
                       ),
@@ -172,7 +203,7 @@ class HomeView extends GetView<HomeController> {
     );
   }
 
-  void _showAddRestaurantModal(BuildContext context) {
+  void _showAddRestaurantModal(HomeController controller, BuildContext context) {
     CustomForm.show(
       context,
       formTitle: 'اضافه‌کردن رستوران',
@@ -192,6 +223,7 @@ class HomeView extends GetView<HomeController> {
             'رستوران ${_res.name} اضافه شد',
           );
         }
+        setState(() {});
       },
       buttonText: 'اضافه کردن',
     );

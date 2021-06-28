@@ -4,6 +4,7 @@ import 'package:alo_self/app/model/user_profile.dart';
 import 'package:alo_self/app/modules/login/controllers/login_controller.dart';
 import 'package:alo_self/app/modules/login/views/login_view.dart';
 import 'package:alo_self/app/common_widgets/custom_pair.dart';
+import 'package:extended_masked_text/extended_masked_text.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
@@ -12,13 +13,20 @@ class UserHomeController extends GetxController {
   final firstNameController = TextEditingController().obs;
   final lastNameController = TextEditingController().obs;
   final areaController = TextEditingController().obs;
-  final addressController = TextEditingController().obs;
+  // final addressController = TextEditingController().obs;
+  final creditController =  MoneyMaskedTextController(
+    precision: 0,
+    decimalSeparator: '',
+    thousandSeparator: ',',
+    rightSymbol: ' تومان',
+  ).obs;
 
   List<CustomPair<String, Rx<TextEditingController>>> get editProfileControllers => [
         CustomPair('نام', firstNameController),
         CustomPair('نام خانوادگی', lastNameController),
         CustomPair('دانشکده', areaController),
-        CustomPair('آدرس', addressController),
+        CustomPair('اعتبار', creditController),
+        // CustomPair('آدرس', addressController),
       ];
 
   final searchRestaurantName = TextEditingController().obs;
@@ -58,7 +66,8 @@ class UserHomeController extends GetxController {
         first_name: firstNameController.value.text,
         last_name: lastNameController.value.text,
         area: areaController.value.text,
-        address: addressController.value.text,
+        credit: creditController.value.numberValue.toInt(),
+        // address: addressController.value.text,
       ),
     );
   }
