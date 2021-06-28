@@ -93,6 +93,7 @@ class RestaurantsController extends GetxController {
       restaurant.id!,
       name: food.name,
       cost: food.cost,
+      number: food.number,
     );
     // final _rest = await RestaurantApi().editRestaurant(
     //   restaurant.id!,

@@ -1,4 +1,5 @@
 import 'package:alo_self/app/common_widgets/custom_app_bar.dart';
+import 'package:alo_self/app/common_widgets/custom_button.dart';
 import 'package:alo_self/app/common_widgets/custom_card.dart';
 import 'package:alo_self/app/common_widgets/custom_form.dart';
 import 'package:alo_self/app/common_widgets/custom_item_list.dart';
@@ -72,26 +73,31 @@ class _RestaurantsViewState extends State<RestaurantsView> {
                         );
                       },
                       addCallback: () {
-                        CustomForm.show(context,
-                            formTitle: 'اضافه کردن غذا',
-                            textFields: controller.addFoodControllers
-                                .map(
-                                  (e) => CustomTextField(
-                                    controller: e.second.value,
-                                    labelText: e.first,
-                                  ),
-                                )
-                                .toList(), buttonOnPressed: () async {
-                          await controller.addFoodToRestaurant(
-                            e,
-                            Food(
-                              name: controller.foodNameController.value.text,
-                              cost: controller.foodCostController.value.numberValue.toInt(),
-                            ),
-                          );
-                          Get.back();
-                          setState(() {});
-                        }, buttonText: 'اضافه‌کردن');
+                        CustomForm.show(
+                          context,
+                          formTitle: 'اضافه کردن غذا',
+                          textFields: controller.addFoodControllers
+                              .map(
+                                (e) => CustomTextField(
+                                  controller: e.second.value,
+                                  labelText: e.first,
+                                ),
+                              )
+                              .toList(),
+                          buttonOnPressed: () async {
+                            await controller.addFoodToRestaurant(
+                              e,
+                              Food(
+                                name: controller.foodNameController.value.text,
+                                cost: controller.foodCostController.value.numberValue.toInt(),
+                                number: int.parse(controller.foodNumberController.value.text),
+                              ),
+                            );
+                            Get.back();
+                            setState(() {});
+                          },
+                          buttonText: 'اضافه‌کردن',
+                        );
                       },
                       topStart: 'نام: ${e.name}',
                       bottomStart: 'منطقه: ${e.area}',
@@ -117,16 +123,8 @@ class _RestaurantsViewState extends State<RestaurantsView> {
                                             formTitle: 'غذای ${food.name} حذف شود؟',
                                             textFields: [
                                               SizedBox(height: 20),
-                                              MaterialButton(
-                                                child: Text(
-                                                  'حذف غذا',
-                                                  style: TextStyle(
-                                                    fontSize: 18,
-                                                    fontWeight: FontWeight.bold,
-                                                  ),
-                                                ),
-                                                color: Colors.red[400],
-                                                onPressed: () async {
+                                              CustomButton(
+                                                buttonOnPressed: () async {
                                                   await controller.removeFood(e, food);
                                                   Get.back();
                                                   Get.back();
@@ -136,20 +134,15 @@ class _RestaurantsViewState extends State<RestaurantsView> {
                                                   );
                                                   setState(() {});
                                                 },
+                                                buttonText: 'حذف غذا',
                                               ),
-                                              MaterialButton(
-                                                color: Colors.green[500],
-                                                child: Text(
-                                                  'لغو',
-                                                  style: TextStyle(
-                                                    fontSize: 18,
-                                                    fontWeight: FontWeight.bold,
-                                                  ),
-                                                ),
-                                                onPressed: () {
+                                              CustomButton(
+                                                buttonText: 'لغو',
+                                                buttonOnPressed: () {
                                                   Get.back();
                                                 },
-                                              )
+                                                backgroundColor: Colors.red[400],
+                                              ),
                                             ],
                                             buttonOnPressed: () {},
                                             showSubmitButton: false,
