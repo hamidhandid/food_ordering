@@ -11,6 +11,7 @@ class FoodApi {
     String rid, {
     required String name,
     required int cost,
+    required int? number,
     bool orderable = true,
   }) async {
     return invokeApi<Food>((dio) async {
@@ -18,6 +19,7 @@ class FoodApi {
         name: name,
         cost: cost,
         orderable: orderable,
+        number: number,
       ).toJson();
       print(json.encode(_food));
       Response? res;
