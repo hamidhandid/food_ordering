@@ -1,6 +1,7 @@
 import 'package:alo_self/app/common_widgets/custom_app_bar.dart';
 import 'package:alo_self/app/common_widgets/custom_button.dart';
 import 'package:alo_self/app/common_widgets/custom_form.dart';
+import 'package:alo_self/app/common_widgets/custom_money_formatter.dart';
 import 'package:alo_self/app/common_widgets/custom_text_field.dart';
 import 'package:alo_self/app/model/user_profile.dart';
 import 'package:alo_self/app/modules/search/views/search_view.dart';
@@ -82,20 +83,43 @@ class _UserHomeViewState extends State<UserHomeView> {
                           height: 30,
                         ),
                         Text(
-                          'اعتبار: ${snapshot.data!.credit} تومان',
+                          'اعتبار: ${CustomMoneyFormatter.formatMoney(snapshot.data!.credit!)}',
                           style: TextStyle(fontWeight: FontWeight.w600, fontSize: 22, color: Colors.green[800]),
                         ),
+                        SizedBox(height: 30),
+                        userProfile!.first_name.isEmpty
+                            ? CustomButton(
+                                buttonOnPressed: () => _showEditProfileModal(
+                                  context,
+                                  userProfile: userProfile,
+                                ),
+                                buttonText: 'پروفایل خود را کامل کنید',
+                              )
+                            : Padding(
+                                padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                      'تعداد کل سفارش‌ها: ${snapshot.data!.orders_history?.length ?? 0}',
+                                      style: TextStyle(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.w600,
+                                      ),
+                                    ),
+                                    // Text(
+                                    //   'تعداد غذاها: ${snapshot.data!.fold(0, (int previousValue, element) => previousValue + (element.foods?.length ?? 0))}',
+                                    //   style: TextStyle(
+                                    //     fontSize: 18,
+                                    //     fontWeight: FontWeight.w600,
+                                    //   ),
+                                    // ),
+                                  ],
+                                ),
+                              ),
                       ],
                     );
                   },
-                ),
-                SizedBox(height: 30),
-                CustomButton(
-                  buttonOnPressed: () => _showEditProfileModal(
-                    context,
-                    userProfile: userProfile,
-                  ),
-                  buttonText: 'پروفایل خود را کامل کنید',
                 ),
                 SizedBox(height: 45),
                 Expanded(
