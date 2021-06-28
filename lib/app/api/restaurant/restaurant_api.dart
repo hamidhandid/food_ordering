@@ -12,7 +12,6 @@ class RestaurantApi {
   Future<Restaurant?> addRestaurant({
     required String name,
     required String area,
-    required String address,
     required List<String> service_areas,
     required String work_hour,
     required int deliver_cost,
@@ -21,7 +20,6 @@ class RestaurantApi {
       final _restaurant = Restaurant(
         name: name,
         area: area,
-        address: address,
         service_areas: service_areas,
         work_hour: work_hour,
         deliver_cost: deliver_cost,
@@ -50,7 +48,7 @@ class RestaurantApi {
     String id, {
     required String name,
     required String area,
-    required String address,
+    // required String address,
     required List<String> service_areas,
     required String work_hour,
     required int deliver_cost,
@@ -60,7 +58,7 @@ class RestaurantApi {
       final _restaurant = Restaurant(
         name: name,
         area: area,
-        address: address,
+        // address: address,
         service_areas: service_areas,
         work_hour: work_hour,
         deliver_cost: deliver_cost,
