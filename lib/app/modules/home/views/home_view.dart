@@ -110,7 +110,7 @@ class _HomeViewState extends State<HomeView> {
                                               orders = orderSnapshot.data!.orders!;
                                               if (orders!
                                                   .where((el) => el.sender != null)
-                                                  .where((el) => el.status != 'در حال ارسال')
+                                                  .where((el) => el.status == 'در حال تحویل به ارسال کننده')
                                                   .isNotEmpty) {
                                                 return CustomButton(
                                                   buttonOnPressed: () {
@@ -125,7 +125,7 @@ class _HomeViewState extends State<HomeView> {
                                                 children: [
                                                   SizedBox(height: 10),
                                                   Text(
-                                                    'سفارشی به شما نرسیده است',
+                                                    'سفارشی ندارید',
                                                     style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
                                                   ),
                                                 ],
@@ -277,10 +277,14 @@ class _HomeViewState extends State<HomeView> {
       formTitle: 'سفارش‌های رسیده',
       textFields: [
         if (orders != null &&
-            orders!.where((el) => el.sender != null).where((el) => el.status != 'در حال ارسال').isNotEmpty)
+            orders!
+                .where((el) => el.sender != null)
+                .where((el) => el.status == 'در حال تحویل به ارسال کننده')
+                .isNotEmpty)
           CustomItemList(
             items: [
-              for (final ord in orders!.where((el) => el.sender != null).where((el) => el.status != 'در حال ارسال'))
+              for (final ord
+                  in orders!.where((el) => el.sender != null).where((el) => el.status == 'در حال تحویل به ارسال کننده'))
                 NormalCard(
                   topStart:
                       'مقصد: ${ord.customer?.area} | ارسال کننده: ${ord.sender?.first_name ?? ''} ${ord.sender?.last_name ?? ''}',
@@ -295,6 +299,7 @@ class _HomeViewState extends State<HomeView> {
                       // sender: profileSnapshot.data,
                     );
                     if (_res != null) {
+                      Get.back();
                       CustomSnackBar.show(
                         'موفق',
                         'شما سفارش ${ord.foods.map((e) => e.name).toList().join(' و ')} را به ارسال کننده تحویل دادید',

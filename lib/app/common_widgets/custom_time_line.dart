@@ -80,7 +80,7 @@ class _CustomTimeLineState extends State<CustomTimeLine> {
           indicatorBuilder: (_, index) {
             var color;
             var child;
-            if (index < _processIndex || _processIndex == 2) {
+            if (index < _processIndex) {
               color = completeColor;
               child = Icon(
                 Icons.check,

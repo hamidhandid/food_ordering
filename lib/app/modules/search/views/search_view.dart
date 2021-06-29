@@ -14,8 +14,9 @@ import 'package:get_storage/get_storage.dart';
 import '../controllers/search_controller.dart';
 
 class SearchView extends StatefulWidget {
-  const SearchView({Key? key, this.resultFoods}) : super(key: key);
+  const SearchView({Key? key, this.resultFoods, this.cost}) : super(key: key);
   final List<Food>? resultFoods;
+  final int? cost;
 
   @override
   _SearchViewState createState() => _SearchViewState();
@@ -61,7 +62,7 @@ class _SearchViewState extends State<SearchView> {
                     StatefulBuilder(
                       builder: (context, customSetState) {
                         final totalValue = controller.foodsToOrder
-                            .fold<int>(0, (int previousValue, element) => (element.cost + previousValue));
+                            .fold<int>(0, (int previousValue, element) => (element.cost + previousValue)) + widget.cost!;
                         return Wrap(
                           children: [
                             SafeArea(
@@ -94,7 +95,14 @@ class _SearchViewState extends State<SearchView> {
                                               )
                                               .toList(),
                                           SizedBox(height: 20),
-                                          SizedBox(height: 30),
+                                          Text(
+                                            'هزینه ارسال: ${CustomMoneyFormatter.formatMoney(widget.cost!)}',
+                                            style: TextStyle(
+                                              fontSize: 18,
+                                              fontWeight: FontWeight.w500,
+                                            ),
+                                          ),
+                                          SizedBox(height: 40),
                                           Text(
                                             'مجموع هزینه: ${CustomMoneyFormatter.formatMoney(totalValue)}',
                                             style: TextStyle(
@@ -115,14 +123,14 @@ class _SearchViewState extends State<SearchView> {
                     ),
                   ],
                   buttonOnPressed: () async {
-                    final order = await controller.addOrder();
+                    final order = await controller.addOrder(widget.cost!);
                     if (order != null) {
                       Get.back();
                       final foodsStr = <String>[];
                       for (final food in order.foods) {
                         foodsStr.add(food.name);
                       }
-                      final foodsString = foodsStr.join('و');
+                      final foodsString = foodsStr.join(' و ');
                       CustomSnackBar.show('موفق', 'سفارش ${foodsString} اضافه شد');
                     }
                   },

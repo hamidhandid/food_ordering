@@ -1,4 +1,5 @@
 import 'package:alo_self/app/api/order/order_api.dart';
+import 'package:alo_self/app/api/restaurant/restaurant_api.dart';
 import 'package:alo_self/app/common_widgets/custom_app_bar.dart';
 import 'package:alo_self/app/common_widgets/custom_button.dart';
 import 'package:alo_self/app/common_widgets/custom_form.dart';
@@ -177,8 +178,10 @@ class _UserHomeViewState extends State<UserHomeView> {
                                       .toList(),
                                   buttonOnPressed: () async {
                                     final _resFoods = await controller.searchFoods();
+                                    final _fixedCost = (await RestaurantApi().getAllRestaurants())!.restaurants.first.deliver_cost;
                                     await Get.off(() => SearchView(
                                           resultFoods: _resFoods,
+                                          cost: _fixedCost,
                                         ));
                                   },
                                   buttonText: 'جستجو',

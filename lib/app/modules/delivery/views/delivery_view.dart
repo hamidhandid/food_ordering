@@ -82,10 +82,10 @@ class _DeliveryViewState extends State<DeliveryView> {
                                   CustomItemList(
                                     items: [
                                       if (snapshot.data!.orders!
-                                          .where((el) => el.customer?.id != profileSnapshot.data!.id)
+                                          .where((el) => el.customer?.id != profileSnapshot.data!.id).where((el) => el.sender == null)
                                           .isNotEmpty)
                                         for (final ord in snapshot.data!.orders!
-                                            .where((el) => el.customer?.id != profileSnapshot.data!.id))
+                                            .where((el) => el.customer?.id != profileSnapshot.data!.id).where((el) => el.sender == null))
                                           NormalCard(
                                             topStart: 'مقصد: ${ord.customer?.area}',
                                             bottomStart: 'سفارش ${ord.foods.map((e) => e.name).toList().join(' و ')} به ${ord.customer?.first_name ?? ""} ${ord.customer?.last_name ?? ""}',
@@ -161,7 +161,7 @@ class _DeliveryViewState extends State<DeliveryView> {
                               ),
                               SizedBox(height: 20),
                               Text(
-                                'مبلغ کل فاکتور: ${CustomMoneyFormatter.formatMoney(order.foods.fold(0, (int previousValue, el) => previousValue + el.cost))}',
+                                'مبلغ کل فاکتور: ${CustomMoneyFormatter.formatMoney(order.foods.fold(0, (int previousValue, el) => previousValue + el.cost) + order.restaurant!.deliver_cost)}',
                                 style: TextStyle(
                                   fontSize: 17,
                                   fontWeight: FontWeight.bold,
@@ -196,7 +196,7 @@ class _DeliveryViewState extends State<DeliveryView> {
                                               .where((el) => el.customer?.id != profileSnapshot.data!.id).where((el) => el.sender == null)
                                               .isNotEmpty)
                                             for (final ord in snapshot.data!.orders!
-                                                .where((el) => el.customer?.id != profileSnapshot.data!.id))
+                                                .where((el) => el.customer?.id != profileSnapshot.data!.id).where((el) => el.sender == null))
                                               NormalCard(
                                                 topStart: 'مقصد: ${ord.customer?.area}',
                                                 bottomStart:
@@ -207,6 +207,7 @@ class _DeliveryViewState extends State<DeliveryView> {
                                                   final _res = await OrderApi().editOrder(
                                                     ord.id!,
                                                     status: 'در حال تحویل به ارسال کننده',
+                                                    sender: profileSnapshot.data,
                                                   );
                                                   if (_res != null) {
                                                     Get.back();

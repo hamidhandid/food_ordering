@@ -88,7 +88,7 @@ class _OrdersViewState extends State<OrdersView> {
                           ),
                           SizedBox(height: 40),
                           Text(
-                            'مبلغ کل فاکتور: ${CustomMoneyFormatter.formatMoney(order.foods.fold(0, (int previousValue, el) => previousValue + el.cost))}',
+                            'مبلغ کل فاکتور: ${CustomMoneyFormatter.formatMoney(order.foods.fold(0, (int previousValue, el) => previousValue + el.cost) + order.restaurant!.deliver_cost)}',
                             style: TextStyle(
                               fontSize: 17,
                               fontWeight: FontWeight.bold,
