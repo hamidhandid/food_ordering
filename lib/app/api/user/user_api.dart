@@ -31,7 +31,7 @@ class UserApi {
       // return LoginResult(token: res as);
       print(res?.data);
       resultCallLogin = res?.data;
-      // resultOfCall = res?.data;
+      resultOfCall = null;
       // print(_res.statusCode);
       // print(json.decode(_res.data));
       return LoginResult.fromJson(res!.data as Map<String, dynamic>);
@@ -56,7 +56,7 @@ class UserApi {
       // return LoginResult(token: res as);
       print(res?.data);
       resultCallLogin = res?.data;
-      // resultOfCall = res?.data;
+      resultOfCall = null;
       // print(_res.statusCode);
       // print(json.decode(_res.data));
       return LoginResult.fromJson(res!.data as Map<String, dynamic>);
@@ -81,7 +81,6 @@ class UserApi {
       print(res?.data);
       resultOfCall = res?.data;
       final result = UserProfile.fromJson(res!.data as Map<String, dynamic>);
-      await GetStorage().write('userId', result.id);
       // print(_res.statusCode);
       // print(json.decode(_res.data));
       return result;

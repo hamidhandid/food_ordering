@@ -27,6 +27,7 @@ class ManagerApi {
       // return LoginResult(token: res as);
       print(res?.data);
       resultCallLogin = res?.data;
+      resultOfCall = null;
       // resultOfCall = res?.data;
       // print(_res.statusCode);
       // print(json.decode(_res.data));
@@ -52,6 +53,7 @@ class ManagerApi {
       // return LoginResult(token: res as);
       print(res?.data);
       resultCallLogin = res?.data;
+      resultOfCall = null;
       // resultOfCall = res?.data;
       // print(_res.statusCode);
       // print(json.decode(_res.data));
