@@ -3,6 +3,7 @@ import 'package:alo_self/app/common_widgets/custom_button.dart';
 import 'package:alo_self/app/common_widgets/custom_card.dart';
 import 'package:alo_self/app/common_widgets/custom_form.dart';
 import 'package:alo_self/app/common_widgets/custom_item_list.dart';
+import 'package:alo_self/app/common_widgets/custom_money_formatter.dart';
 import 'package:alo_self/app/common_widgets/custom_screen.dart';
 import 'package:alo_self/app/common_widgets/custom_snackbar.dart';
 import 'package:alo_self/app/common_widgets/custom_text_field.dart';
@@ -101,7 +102,7 @@ class _RestaurantsViewState extends State<RestaurantsView> {
                       },
                       topStart: 'نام: ${e.name}',
                       bottomStart: 'منطقه: ${e.area}',
-                      bottomEnd: 'هزینه ثابت ارسال غذا: ${e.deliver_cost} تومان',
+                      bottomEnd: 'هزینه ثابت ارسال غذا: ${CustomMoneyFormatter.formatMoney(e.deliver_cost)}',
                       additionalRowPairs: e.foods != null && e.foods!.isNotEmpty
                           ? [
                               if (e.foods != null && e.foods!.isNotEmpty)
@@ -113,6 +114,7 @@ class _RestaurantsViewState extends State<RestaurantsView> {
                                       });
                                       controller.foodCostController.value.text = food.cost.toString();
                                       controller.foodNameController.value.text = food.name;
+                                      controller.foodNumberController.value.text = food.number.toString();
                                       CustomForm.show(
                                         context,
                                         formTitle: 'ویرایش غذا',
