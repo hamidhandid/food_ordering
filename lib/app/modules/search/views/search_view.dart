@@ -3,11 +3,13 @@ import 'package:alo_self/app/common_widgets/custom_card.dart';
 import 'package:alo_self/app/common_widgets/custom_form.dart';
 import 'package:alo_self/app/common_widgets/custom_item_list.dart';
 import 'package:alo_self/app/common_widgets/custom_money_formatter.dart';
+import 'package:alo_self/app/common_widgets/custom_snackbar.dart';
 import 'package:alo_self/app/model/food.dart';
 import 'package:alo_self/app/common_widgets/custom_pair.dart';
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 
 import '../controllers/search_controller.dart';
 
@@ -112,7 +114,18 @@ class _SearchViewState extends State<SearchView> {
                       },
                     ),
                   ],
-                  buttonOnPressed: () {},
+                  buttonOnPressed: () async {
+                    final order = await controller.addOrder();
+                    if (order != null) {
+                      Get.back();
+                      final foodsStr = <String>[];
+                      for (final food in order.foods) {
+                        foodsStr.add(food.name);
+                      }
+                      final foodsString = foodsStr.join('و');
+                      CustomSnackBar.show('موفق', 'سفارش ${foodsString} اضافه شد');
+                    }
+                  },
                   buttonText: 'سفارش',
                 );
               },

@@ -1,8 +1,10 @@
+import 'package:alo_self/app/api/order/order_api.dart';
 import 'package:alo_self/app/common_widgets/custom_app_bar.dart';
 import 'package:alo_self/app/common_widgets/custom_button.dart';
 import 'package:alo_self/app/common_widgets/custom_form.dart';
 import 'package:alo_self/app/common_widgets/custom_money_formatter.dart';
 import 'package:alo_self/app/common_widgets/custom_text_field.dart';
+import 'package:alo_self/app/model/orders.dart';
 import 'package:alo_self/app/model/user_profile.dart';
 import 'package:alo_self/app/modules/delivery/views/delivery_view.dart';
 import 'package:alo_self/app/modules/orders/views/orders_view.dart';
@@ -102,12 +104,20 @@ class _UserHomeViewState extends State<UserHomeView> {
                                 child: Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
-                                    Text(
-                                      'تعداد کل سفارش‌ها: ${snapshot.data!.orders_history?.length ?? 0}',
-                                      style: TextStyle(
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.w600,
-                                      ),
+                                    FutureBuilder<Orders?>(
+                                      future: OrderApi().getCustomerOrders(),
+                                      builder: (context, snapshot) {
+                                        if (!snapshot.hasData || snapshot.hasError) {
+                                          return Container();
+                                        }
+                                        return Text(
+                                          'تعداد کل سفارش‌ها: ${snapshot.data!.orders!.length}',
+                                          style: TextStyle(
+                                            fontSize: 18,
+                                            fontWeight: FontWeight.w600,
+                                          ),
+                                        );
+                                      },
                                     ),
                                     // Text(
                                     //   'تعداد غذاها: ${snapshot.data!.fold(0, (int previousValue, element) => previousValue + (element.foods?.length ?? 0))}',

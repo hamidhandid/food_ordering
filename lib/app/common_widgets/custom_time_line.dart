@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:math';
 
+import 'package:alo_self/app/common_widgets/custom_app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:timelines/timelines.dart';
@@ -12,8 +13,9 @@ const inProgressColor = Color(0xff5ec792);
 const todoColor = Color(0xffd1d2d7);
 
 class CustomTimeLine extends StatefulWidget {
-  const CustomTimeLine({Key? key, this.title}) : super(key: key);
+  const CustomTimeLine({Key? key, this.title, this.index}) : super(key: key);
   final String? title;
+  final int? index;
 
   @override
   _CustomTimeLineState createState() => _CustomTimeLineState();
@@ -21,29 +23,19 @@ class CustomTimeLine extends StatefulWidget {
 
 class _CustomTimeLineState extends State<CustomTimeLine> {
   int _processIndex = 0;
-  int _prevIndex = 4;
-  Timer? timer;
 
   @override
   void initState() {
     super.initState();
-    timer = Timer.periodic(Duration(seconds: 5), (t) {
-      Future(() {
-        setState(() {
-          _processIndex = _processIndex < 3 ? (_processIndex + 1) : 3;
-        });
-        if (_processIndex == 3) {
-          Future.delayed(Duration(seconds: 3), () {
-            Get.back();
-          });
-        }
+    Future(() {
+      setState(() {
+        _processIndex = widget.index ?? 2;
       });
     });
   }
 
   @override
   void dispose() {
-    timer?.cancel();
     super.dispose();
   }
 
@@ -61,7 +53,7 @@ class _CustomTimeLineState extends State<CustomTimeLine> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: TitleAppBar(widget.title ?? 'وضعیت سفارش'),
+      appBar: CustomAppBar(title: widget.title ?? 'وضعیت سفارش'),
       body: Timeline.tileBuilder(
         theme: TimelineThemeData(
           direction: Axis.horizontal,
@@ -88,7 +80,14 @@ class _CustomTimeLineState extends State<CustomTimeLine> {
           indicatorBuilder: (_, index) {
             var color;
             var child;
-            if (index == _processIndex) {
+            if (index < _processIndex || _processIndex == 2) {
+              color = completeColor;
+              child = Icon(
+                Icons.check,
+                color: Colors.white,
+                size: 15.0,
+              );
+            } else if (index == _processIndex) {
               color = inProgressColor;
               child = Padding(
                 padding: const EdgeInsets.all(8.0),
@@ -96,13 +95,6 @@ class _CustomTimeLineState extends State<CustomTimeLine> {
                   strokeWidth: 3.0,
                   valueColor: AlwaysStoppedAnimation(Colors.white),
                 ),
-              );
-            } else if (index < _processIndex || _processIndex == 3) {
-              color = completeColor;
-              child = Icon(
-                Icons.check,
-                color: Colors.white,
-                size: 15.0,
               );
             } else {
               color = todoColor;
@@ -255,7 +247,7 @@ class _BezierPainter extends CustomPainter {
 }
 
 final _processes = [
-  'آماده‌سازی',
+  'انتظار برای قبول سفارش',
   'تحویل به ارسال کننده',
   'در حال ارسال',
   'تحویل داده شده',

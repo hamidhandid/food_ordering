@@ -1,4 +1,5 @@
 import 'package:alo_self/app/api/order/order_api.dart';
+import 'package:alo_self/app/api/user/user_api.dart';
 import 'package:alo_self/app/model/food.dart';
 import 'package:alo_self/app/model/order.dart';
 import 'package:get/get.dart';
@@ -22,9 +23,11 @@ class SearchController extends GetxController {
 
   Future<Order?> addOrder() async {
     final _api = OrderApi();
+    final _userId = (await UserApi().getProfile())!.id;
+    print(_userId);
     final _res = await _api.addOrder(
-      GetStorage().read('userId'),
-      foods: foodsToOrder,
+      _userId!,
+      foods: foodsToOrder.value,
     );
     return _res;
   }
