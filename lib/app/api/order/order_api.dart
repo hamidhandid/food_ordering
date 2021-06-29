@@ -10,7 +10,7 @@ import '../api_agent.dart';
 class OrderApi {
   Future<Order?> addOrder(
     String userId, {
-    List<Food> foods = const[],
+    List<Food> foods = const [],
   }) async {
     return invokeApi<Order>((dio) async {
       final _order = Order(
@@ -30,6 +30,7 @@ class OrderApi {
       }
       // return LoginResult(token: res as);
       print(res?.data);
+      resultOfCall = res?.data;
       // print(_res.statusCode);
       // print(json.decode(_res.data));
       return Order.fromJson(res!.data as Map<String, dynamic>);

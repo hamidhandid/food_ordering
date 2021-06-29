@@ -1,5 +1,7 @@
+import 'package:alo_self/app/api/api_agent.dart';
 import 'package:alo_self/app/api/manager/manager_api.dart';
 import 'package:alo_self/app/api/user/user_api.dart';
+import 'package:alo_self/app/model/error.dart';
 import 'package:alo_self/app/modules/home/controllers/home_controller.dart';
 import 'package:alo_self/app/modules/home/views/home_view.dart';
 import 'package:alo_self/app/modules/user_home/controllers/user_home_controller.dart';
@@ -49,7 +51,11 @@ class LoginController extends GetxController {
 
       return 'success';
     }
-    return 'failure';
+    try {
+      return Error.fromJson(resultCallLogin as Map<String, dynamic>).message;
+    } catch (e) {
+      return 'failure';
+    }
   }
 
   Future<String> signup() async {
@@ -76,6 +82,10 @@ class LoginController extends GetxController {
 
       return 'success';
     }
-    return 'failure';
+    try {
+      return Error.fromJson(resultCallLogin as Map<String, dynamic>).message;
+    } catch (e) {
+      return 'failure';
+    }
   }
 }

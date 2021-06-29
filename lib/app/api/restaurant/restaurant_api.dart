@@ -38,6 +38,7 @@ class RestaurantApi {
       }
       // return LoginResult(token: res as);
       print(res?.data);
+      resultOfCall = res?.data;
       // print(_res.statusCode);
       // print(json.decode(_res.data));
       return Restaurant.fromJson(res!.data as Map<String, dynamic>);
@@ -78,6 +79,7 @@ class RestaurantApi {
       }
       // return LoginResult(token: res as);
       print(res?.data);
+      resultOfCall = res?.data;
       // print(_res.statusCode);
       // print(json.decode(_res.data));
       return Restaurant.fromJson(res!.data as Map<String, dynamic>);
@@ -98,6 +100,7 @@ class RestaurantApi {
       }
       // return LoginResult(token: res as);
       print(res?.data);
+      resultOfCall = res?.data;
       // print(_res.statusCode);
       // print(json.decode(_res.data));
       return Restaurants.fromJson(res!.data as Map<String, dynamic>);

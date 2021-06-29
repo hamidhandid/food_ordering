@@ -11,6 +11,7 @@ import 'package:dio/dio.dart';
 import 'package:get_storage/get_storage.dart';
 import '../api_agent.dart';
 
+Object? resultCallLogin;
 class UserApi {
   Future<LoginResult?> login(String phone, String password) async {
     return invokeApi<LoginResult>((dio) async {
@@ -29,6 +30,8 @@ class UserApi {
       }
       // return LoginResult(token: res as);
       print(res?.data);
+      resultCallLogin = res?.data;
+      // resultOfCall = res?.data;
       // print(_res.statusCode);
       // print(json.decode(_res.data));
       return LoginResult.fromJson(res!.data as Map<String, dynamic>);
@@ -52,6 +55,8 @@ class UserApi {
       }
       // return LoginResult(token: res as);
       print(res?.data);
+      resultCallLogin = res?.data;
+      // resultOfCall = res?.data;
       // print(_res.statusCode);
       // print(json.decode(_res.data));
       return LoginResult.fromJson(res!.data as Map<String, dynamic>);
@@ -74,6 +79,7 @@ class UserApi {
       }
       // return LoginResult(token: res as);
       print(res?.data);
+      resultOfCall = res?.data;
       final result = UserProfile.fromJson(res!.data as Map<String, dynamic>);
       await GetStorage().write('userId', result.id);
       // print(_res.statusCode);
@@ -96,6 +102,7 @@ class UserApi {
       }
       // return LoginResult(token: res as);
       print(res?.data);
+      resultOfCall = res?.data;
       // print(_res.statusCode);
       // print(json.decode(_res.data));
       return UserProfile.fromJson(res!.data as Map<String, dynamic>);
@@ -106,14 +113,11 @@ class UserApi {
     return invokeApi<Foods?>((dio) async {
       Response? res;
       try {
-        res = await dio.get(
-          ApiRoutes.searchFood,
-          queryParameters: <String, dynamic>{
-            'restaurant' : restaurantName ?? '',
-            'area' : area ?? '',
-            'food' : foodName ?? '',
-          }
-        );
+        res = await dio.get(ApiRoutes.searchFood, queryParameters: <String, dynamic>{
+          'restaurant': restaurantName ?? '',
+          'area': area ?? '',
+          'food': foodName ?? '',
+        });
       } on DioError catch (e) {
         print(e.message);
         print(e.response?.data);
@@ -121,6 +125,7 @@ class UserApi {
       }
       // return LoginResult(token: res as);
       print(res?.data);
+      resultOfCall = res?.data;
       // print(_res.statusCode);
       // print(json.decode(_res.data));
       return Foods.fromJson(res!.data as Map<String, dynamic>);

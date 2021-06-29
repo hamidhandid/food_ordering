@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:alo_self/app/api/api_routes.dart';
+import 'package:alo_self/app/api/user/user_api.dart';
 import 'package:alo_self/app/model/login_result.dart';
 import 'package:alo_self/app/model/manager.dart';
 import 'package:dio/dio.dart';
@@ -25,6 +26,8 @@ class ManagerApi {
       }
       // return LoginResult(token: res as);
       print(res?.data);
+      resultCallLogin = res?.data;
+      // resultOfCall = res?.data;
       // print(_res.statusCode);
       // print(json.decode(_res.data));
       return LoginResult.fromJson(res!.data as Map<String, dynamic>);
@@ -48,6 +51,8 @@ class ManagerApi {
       }
       // return LoginResult(token: res as);
       print(res?.data);
+      resultCallLogin = res?.data;
+      // resultOfCall = res?.data;
       // print(_res.statusCode);
       // print(json.decode(_res.data));
       return LoginResult.fromJson(res!.data as Map<String, dynamic>);
