@@ -5,6 +5,7 @@ import 'package:alo_self/app/common_widgets/custom_card.dart';
 import 'package:alo_self/app/common_widgets/custom_item_list.dart';
 import 'package:alo_self/app/common_widgets/custom_money_formatter.dart';
 import 'package:alo_self/app/common_widgets/custom_pair.dart';
+import 'package:alo_self/app/common_widgets/custom_snackbar.dart';
 import 'package:alo_self/app/common_widgets/custom_time_line.dart';
 import 'package:alo_self/app/model/orders.dart';
 import 'package:flutter/material.dart';
@@ -106,6 +107,26 @@ class _OrdersViewState extends State<OrdersView> {
                             fontSize: 16,
                           ),
                           SizedBox(height: 20),
+                          if (order.status == 'در حال ارسال')
+                            CustomButton(
+                              buttonOnPressed: () async {
+                                final _res = await OrderApi().editOrder(
+                                  order.id!,
+                                  status: 'تحویل داده شده',
+                                );
+                                if (_res != null) {
+                                  CustomSnackBar.show(
+                                    'تبریک',
+                                    'سفارش ${order.foods.map((e) => e.name).toList().join(' و ')} را با موفقیت تحویل گرفتید',
+                                  );
+                                  setState(() {});
+                                }
+                              },
+                              buttonText: 'تحویل گرفتم',
+                              fontWeight: FontWeight.bold,
+                              fontSize: 15,
+                            ),
+                          if (order.status == 'در حال ارسال') SizedBox(height: 20)
                         ],
                       ),
                     SizedBox(height: 20),
@@ -129,7 +150,7 @@ class _OrdersViewState extends State<OrdersView> {
     if (status == 'در حال ارسال') {
       return 2;
     } else if (status == 'تحویل داده شده') {
-      return 3;
+      return 4;
     } else if (status == 'در حال تحویل به ارسال کننده') {
       return 1;
     }

@@ -1,8 +1,13 @@
+import 'package:alo_self/app/api/order/order_api.dart';
 import 'package:alo_self/app/common_widgets/custom_app_bar.dart';
 import 'package:alo_self/app/common_widgets/custom_button.dart';
+import 'package:alo_self/app/common_widgets/custom_card.dart';
 import 'package:alo_self/app/common_widgets/custom_form.dart';
+import 'package:alo_self/app/common_widgets/custom_item_list.dart';
 import 'package:alo_self/app/common_widgets/custom_snackbar.dart';
 import 'package:alo_self/app/common_widgets/custom_text_field.dart';
+import 'package:alo_self/app/model/order.dart';
+import 'package:alo_self/app/model/orders.dart';
 import 'package:alo_self/app/model/restaurant.dart';
 import 'package:alo_self/app/modules/restaurants/controllers/restaurants_controller.dart';
 import 'package:alo_self/app/modules/restaurants/views/restaurants_view.dart';
@@ -19,6 +24,8 @@ class HomeView extends StatefulWidget {
 }
 
 class _HomeViewState extends State<HomeView> {
+  List<Order>? orders;
+
   @override
   Widget build(BuildContext context) {
     final restaurantsController = Get.put(RestaurantsController());
@@ -94,11 +101,36 @@ class _HomeViewState extends State<HomeView> {
                                             ],
                                           ),
                                           SizedBox(height: 25),
-                                          CustomButton(
-                                            buttonOnPressed: () {},
-                                            buttonText: 'رسیدگی به سفارش‌ها',
-                                            fontSize: 16,
-                                            fontWeight: FontWeight.bold,
+                                          FutureBuilder<Orders?>(
+                                            future: OrderApi().getAllOrders(),
+                                            builder: (context, orderSnapshot) {
+                                              if (!orderSnapshot.hasData || orderSnapshot.hasError) {
+                                                return Container();
+                                              }
+                                              orders = orderSnapshot.data!.orders!;
+                                              if (orders!
+                                                  .where((el) => el.sender != null)
+                                                  .where((el) => el.status != 'در حال ارسال')
+                                                  .isNotEmpty) {
+                                                return CustomButton(
+                                                  buttonOnPressed: () {
+                                                    _onPressedOfOrders();
+                                                  },
+                                                  buttonText: 'رسیدگی به سفارش‌ها',
+                                                  fontSize: 16,
+                                                  fontWeight: FontWeight.bold,
+                                                );
+                                              }
+                                              return Column(
+                                                children: [
+                                                  SizedBox(height: 10),
+                                                  Text(
+                                                    'سفارشی به شما نرسیده است',
+                                                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
+                                                  ),
+                                                ],
+                                              );
+                                            },
                                           ),
                                         ],
                                       ),
@@ -149,8 +181,7 @@ class _HomeViewState extends State<HomeView> {
                             Icons.list_alt_sharp,
                             "سفارش‌های رسیده",
                             onTap: () {
-                              // Get.lazyPut(() => RestaurantsController());
-                              // Get.to(() => RestaurantsView());
+                              _onPressedOfOrders();
                             },
                           ),
                           _buildIconView(
@@ -237,6 +268,56 @@ class _HomeViewState extends State<HomeView> {
         setState(() {});
       },
       buttonText: 'اضافه کردن',
+    );
+  }
+
+  void _onPressedOfOrders() {
+    CustomForm.show(
+      context,
+      formTitle: 'سفارش‌های رسیده',
+      textFields: [
+        if (orders != null &&
+            orders!.where((el) => el.sender != null).where((el) => el.status != 'در حال ارسال').isNotEmpty)
+          CustomItemList(
+            items: [
+              for (final ord in orders!.where((el) => el.sender != null).where((el) => el.status != 'در حال ارسال'))
+                NormalCard(
+                  topStart:
+                      'مقصد: ${ord.customer?.area} | ارسال کننده: ${ord.sender?.first_name ?? ''} ${ord.sender?.last_name ?? ''}',
+                  bottomStart:
+                      'سفارش ${ord.foods.map((e) => e.name).toList().join(' و ')} به ${ord.customer?.first_name ?? ""} ${ord.customer?.last_name ?? ""}',
+                  bottomEnd:
+                      'زمان سفارش: ${ord.time!.substring(ord.time!.indexOf('2021') + 5, ord.time!.indexOf('2021') + 10)}',
+                  addCallback: () async {
+                    final _res = await OrderApi().editOrder(
+                      ord.id!,
+                      status: 'در حال ارسال',
+                      // sender: profileSnapshot.data,
+                    );
+                    if (_res != null) {
+                      CustomSnackBar.show(
+                        'موفق',
+                        'شما سفارش ${ord.foods.map((e) => e.name).toList().join(' و ')} را به ارسال کننده تحویل دادید',
+                      );
+                      setState(() {});
+                    }
+                  },
+                  additionItemsTitle: '',
+                  iconAdd: Icons.delivery_dining_sharp,
+                )
+            ],
+          )
+        else
+          Text(
+            'سفارشی ندارید',
+            style: TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.w500,
+            ),
+          ),
+      ],
+      buttonOnPressed: () {},
+      showSubmitButton: false,
     );
   }
 }

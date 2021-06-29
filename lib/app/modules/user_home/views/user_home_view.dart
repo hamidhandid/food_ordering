@@ -33,6 +33,17 @@ class _UserHomeViewState extends State<UserHomeView> {
           await controller.logout();
         },
         showLogoutAction: true,
+        actions: [
+          IconButton(
+            onPressed: () {
+              setState(() {});
+            },
+            icon: Icon(
+              Icons.replay_outlined,
+              size: 30,
+            ),
+          ),
+        ],
       ),
       body: Container(
         child: StatefulBuilder(

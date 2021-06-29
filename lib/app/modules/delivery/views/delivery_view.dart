@@ -7,6 +7,7 @@ import 'package:alo_self/app/common_widgets/custom_form.dart';
 import 'package:alo_self/app/common_widgets/custom_item_list.dart';
 import 'package:alo_self/app/common_widgets/custom_money_formatter.dart';
 import 'package:alo_self/app/common_widgets/custom_pair.dart';
+import 'package:alo_self/app/common_widgets/custom_snackbar.dart';
 import 'package:alo_self/app/common_widgets/custom_time_line.dart';
 import 'package:alo_self/app/model/orders.dart';
 import 'package:alo_self/app/model/user_profile.dart';
@@ -98,7 +99,7 @@ class _DeliveryViewState extends State<DeliveryView> {
                                               );
                                               if (_res != null) {
                                                 Get.back();
-                                                Get.snackbar(
+                                                CustomSnackBar.show(
                                                   'موفق',
                                                   'شما سفارش ${ord.foods.map((e) => e.name).toList().join(' و ')} را پذیرفتید',
                                                 );
@@ -209,7 +210,7 @@ class _DeliveryViewState extends State<DeliveryView> {
                                                   );
                                                   if (_res != null) {
                                                     Get.back();
-                                                    Get.snackbar(
+                                                    CustomSnackBar.show(
                                                       'موفق',
                                                       'شما سفارش ${ord.foods.map((e) => e.name).toList().join(' و ')} را پذیرفتید',
                                                     );
